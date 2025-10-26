@@ -143,6 +143,33 @@ evaluator = Evaluator(adapter)
 results = evaluator.evaluate_dataset("tests/cases.jsonl")
 ```
 
+### LlamaIndex
+
+```python
+from llama_index.core import VectorStoreIndex
+from rag_guardian.integrations import LlamaIndexVectorStoreAdapter
+
+# Create your index
+index = VectorStoreIndex.from_documents(documents)
+
+# Use specialized adapter
+adapter = LlamaIndexVectorStoreAdapter(
+    index,
+    similarity_top_k=3,
+    response_mode="compact"
+)
+
+# Evaluate
+evaluator = Evaluator(adapter)
+results = evaluator.evaluate_dataset("tests/cases.jsonl")
+```
+
+**Also supports:**
+- `LlamaIndexAdapter` - Generic adapter for any QueryEngine
+- `LlamaIndexChatEngineAdapter` - For conversational RAG
+
+See [examples/llamaindex](examples/llamaindex/) for more.
+
 ### Custom RAG
 
 ```python
@@ -181,17 +208,19 @@ Now your RAG gets tested on every PR.
 Current version (v1.0.0 MVP):
 - ✅ 4 core quality metrics (faithfulness, groundedness, relevancy, correctness)
 - ✅ Full CLI and Python API
-- ✅ LangChain integration
-- ✅ JSON and HTML reporting
+- ✅ LangChain integration (full support)
+- ✅ LlamaIndex integration (3 specialized adapters)
+- ✅ JSON and HTML reporting (beautiful, responsive)
 - ✅ Example test cases and quickstart
 - ✅ GitHub Actions CI/CD integration
 - ✅ Custom HTTP adapter for any RAG system
+- ✅ Comprehensive test coverage (unit + integration)
 
 Coming in v1.5:
 - Semantic similarity metrics with embeddings
 - SQLite storage for baselines
-- LlamaIndex support
 - Slack notifications
+- Performance benchmarking
 
 Coming in v2.0:
 - Production monitoring with sampling

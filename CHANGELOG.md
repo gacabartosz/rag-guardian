@@ -116,6 +116,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added - Latest (2025-10-26)
+
+**LlamaIndex Integration:**
+- `LlamaIndexAdapter` - Generic adapter for any QueryEngine
+- `LlamaIndexVectorStoreAdapter` - Specialized for VectorStoreIndex
+- `LlamaIndexChatEngineAdapter` - For conversational RAG
+- Full support for source_nodes extraction
+- Automatic retriever detection
+- Example implementation with mock LlamaIndex
+
+**Comprehensive Test Coverage:**
+- Unit tests for DataLoader (13 test cases)
+- Unit tests for LlamaIndex adapter (20+ test cases)
+- Unit tests for LangChain adapter (20+ test cases)
+- Unit tests for exceptions (15+ test cases)
+- Unit tests for HTMLReporter (15+ test cases)
+- Integration tests for full workflows (10+ scenarios)
+- Total: 90+ new test cases
+
+**Documentation:**
+- LlamaIndex integration guide (examples/llamaindex/README.md)
+- LlamaIndex example with mock implementation
+- Updated README with LlamaIndex section
+- Updated "What's included" section
+
 ### Planned for v1.5
 - Semantic similarity metrics with embeddings
 - sentence-transformers integration
@@ -123,7 +148,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - SQLite storage for baselines
 - `compare` command implementation
 - Slack notifications
-- GitHub Actions templates
 
 ### Planned for v2.0
 - Production monitoring

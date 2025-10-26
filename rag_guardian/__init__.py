@@ -31,6 +31,15 @@ from rag_guardian.exceptions import (
 # Integrations
 from rag_guardian.integrations.base import BaseRAGAdapter
 from rag_guardian.integrations.custom import CustomHTTPAdapter, CustomRAGAdapter
+from rag_guardian.integrations.langchain import (
+    LangChainAdapter,
+    LangChainRetrievalQAAdapter,
+)
+from rag_guardian.integrations.llamaindex import (
+    LlamaIndexAdapter,
+    LlamaIndexChatEngineAdapter,
+    LlamaIndexVectorStoreAdapter,
+)
 
 # Metrics
 from rag_guardian.metrics.base import BaseMetric
@@ -66,6 +75,13 @@ __all__ = [
     "BaseRAGAdapter",
     "CustomRAGAdapter",
     "CustomHTTPAdapter",
+    # LangChain
+    "LangChainAdapter",
+    "LangChainRetrievalQAAdapter",
+    # LlamaIndex
+    "LlamaIndexAdapter",
+    "LlamaIndexVectorStoreAdapter",
+    "LlamaIndexChatEngineAdapter",
     # Metrics
     "BaseMetric",
     # Reporting
