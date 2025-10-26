@@ -20,6 +20,8 @@ class MetricType(str, Enum):
 class TestCase:
     """A single test case for RAG evaluation."""
 
+    __test__ = False  # Tell pytest this is not a test class
+
     question: str
     expected_answer: Optional[str] = None
     expected_contexts: Optional[List[str]] = None
@@ -77,6 +79,8 @@ class MetricScore:
 @dataclass
 class TestCaseResult:
     """Result for a single test case."""
+
+    __test__ = False  # Tell pytest this is not a test class
 
     test_case: TestCase
     rag_output: RAGOutput

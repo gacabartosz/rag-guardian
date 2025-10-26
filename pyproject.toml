@@ -134,6 +134,8 @@ python_files = ["test_*.py", "*_test.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
 asyncio_mode = "auto"
+# Don't collect TestCase and TestCaseResult as test classes
+norecursedirs = [".git", ".tox", "dist", "build", "*.egg"]
 
 [tool.coverage.run]
 source = ["rag_guardian"]
