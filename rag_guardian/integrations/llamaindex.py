@@ -4,6 +4,9 @@ from typing import Any, List, Optional
 
 from rag_guardian.core.types import RAGOutput
 from rag_guardian.integrations.base import BaseRAGAdapter
+from rag_guardian.utils.logging import get_logger
+
+logger = get_logger(__name__)
 
 
 class LlamaIndexAdapter(BaseRAGAdapter):
@@ -107,7 +110,7 @@ class LlamaIndexAdapter(BaseRAGAdapter):
             return contexts
 
         except Exception as e:
-            print(f"Warning: Could not retrieve contexts: {e}")
+            logger.warning(f"Could not retrieve contexts: {e}")
             return []
 
     def generate(self, query: str, contexts: List[str]) -> str:

@@ -18,6 +18,9 @@ from rag_guardian.metrics.base import BaseMetric
 from rag_guardian.metrics.context_relevancy import ContextRelevancyMetric
 from rag_guardian.metrics.faithfulness import FaithfulnessMetric
 from rag_guardian.metrics.groundedness import GroundednessMetric
+from rag_guardian.utils.logging import get_logger
+
+logger = get_logger(__name__)
 
 
 class EvaluationPipeline:
@@ -186,7 +189,7 @@ class EvaluationPipeline:
                 results.append(result)
             except Exception as e:
                 # Create a failed result for exceptions
-                print(f"Error evaluating test case: {e}")
+                logger.error(f"Error evaluating test case: {e}")
                 # For now, we'll skip failed executions
                 # In production, you might want to create a failed TestCaseResult
                 continue

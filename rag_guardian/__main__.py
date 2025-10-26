@@ -98,12 +98,95 @@ def test(config, dataset, output_format, output_file, rag_endpoint):
 
 
 @main.command()
-def init():
+@click.option("--output-dir", default=".", help="Directory to initialize")
+def init(output_dir):
     """Initialize RAG Guardian in current directory."""
-    click.echo("Initializing RAG Guardian...")
-    # TODO: Create example config and test files
-    click.echo("Created .rag-guardian.yml")
-    click.echo("Created tests/example_cases.jsonl")
+    from pathlib import Path
+
+    output_path = Path(output_dir).resolve()
+
+    click.echo("🚀 RAG Guardian - Project Initialization\n")
+
+    # Step 1: Create config file
+    config_path = output_path / ".rag-guardian.yml"
+    if config_path.exists():
+        click.echo(f"⚠️  Config file already exists: {config_path}")
+        if not click.confirm("Overwrite?"):
+            click.echo("❌ Initialization cancelled")
+            return
+
+    config_content = """# RAG Guardian Configuration
+version: 1.0
+
+# Configure your RAG system
+rag_system:
+  type: "custom"  # Options: "langchain", "llamaindex", "custom"
+  endpoint: "http://localhost:8000/rag"
+  timeout: 30
+
+# Metrics configuration
+metrics:
+  faithfulness:
+    enabled: true
+    threshold: 0.85
+    required: true
+
+  groundedness:
+    enabled: true
+    threshold: 0.80
+    required: false
+
+  context_relevancy:
+    enabled: true
+    threshold: 0.75
+
+  answer_correctness:
+    enabled: true
+    threshold: 0.80
+
+# Reporting
+reporting:
+  formats: ["json", "html"]
+  output_dir: "results"
+"""
+
+    with open(config_path, "w") as f:
+        f.write(config_content)
+    click.echo(f"✅ Created config: {config_path}")
+
+    # Step 2: Create tests directory
+    tests_dir = output_path / "tests"
+    tests_dir.mkdir(exist_ok=True)
+    click.echo(f"✅ Created directory: {tests_dir}")
+
+    # Step 3: Create example test cases
+    cases_path = tests_dir / "example_cases.jsonl"
+    if not cases_path.exists():
+        example_cases = """{"question": "What is RAG?", "expected_answer": "Retrieval-Augmented Generation"}
+{"question": "How does RAG work?", "expected_answer": "RAG combines retrieval of relevant documents with LLM generation"}
+{"question": "What are the benefits of RAG?", "expected_answer": "Reduces hallucinations and provides up-to-date information", "acceptable_answers": ["Better accuracy", "Factual grounding", "Up-to-date knowledge"]}
+"""
+        with open(cases_path, "w") as f:
+            f.write(example_cases)
+        click.echo(f"✅ Created example test cases: {cases_path}")
+    else:
+        click.echo(f"ℹ️  Test cases already exist: {cases_path}")
+
+    # Step 4: Create results directory
+    results_dir = output_path / "results"
+    results_dir.mkdir(exist_ok=True)
+    click.echo(f"✅ Created results directory: {results_dir}")
+
+    # Success message with next steps
+    click.echo("\n" + "=" * 60)
+    click.echo("✅ RAG Guardian initialized successfully!")
+    click.echo("=" * 60)
+    click.echo("\n📋 Next steps:")
+    click.echo(f"1. Configure your RAG system in: {config_path}")
+    click.echo(f"2. Add your test cases to: {cases_path}")
+    click.echo(f"3. Run tests: rag-guardian test --dataset {cases_path}")
+    click.echo("\n💡 Tip: Check examples/ directory for more templates")
+    click.echo("=" * 60 + "\n")
 
 
 @main.command()

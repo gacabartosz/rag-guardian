@@ -4,6 +4,9 @@ from typing import Any, List, Optional
 
 from rag_guardian.core.types import RAGOutput
 from rag_guardian.integrations.base import BaseRAGAdapter
+from rag_guardian.utils.logging import get_logger
+
+logger = get_logger(__name__)
 
 
 class LangChainAdapter(BaseRAGAdapter):
@@ -79,7 +82,7 @@ class LangChainAdapter(BaseRAGAdapter):
             docs = self.retriever.get_relevant_documents(query)
             return [doc.page_content for doc in docs]
         except Exception as e:
-            print(f"Warning: Could not retrieve documents: {e}")
+            logger.warning(f"Could not retrieve documents: {e}")
             return []
 
     def generate(self, query: str, contexts: List[str]) -> str:

@@ -5,6 +5,9 @@ from typing import Optional
 
 from rag_guardian.core.types import RAGOutput
 from rag_guardian.integrations.base import BaseRAGAdapter
+from rag_guardian.utils.logging import get_logger
+
+logger = get_logger(__name__)
 
 
 class RAGExecutor:
@@ -61,7 +64,7 @@ class RAGExecutor:
         except Exception as e:
             # Add error info to output
             elapsed = (time.time() - start_time) * 1000
-            print(f"RAG execution failed after {elapsed:.0f}ms: {e}")
+            logger.error(f"RAG execution failed after {elapsed:.0f}ms: {e}")
             raise
 
     def execute_with_timing(self, query: str) -> tuple[RAGOutput, float]:
