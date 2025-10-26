@@ -5,13 +5,13 @@ __author__ = "Bartosz Gaca"
 __email__ = "hello@bartoszgaca.pl"
 
 from rag_guardian.core.config import Config
-from rag_guardian.core.pipeline import EvaluationPipeline
-from rag_guardian.core.types import EvaluationResult, TestCase
+from rag_guardian.core.types import EvaluationResult, TestCase, RAGOutput, MetricScore
 
 __all__ = [
     "Config",
-    "EvaluationPipeline",
     "EvaluationResult",
     "TestCase",
+    "RAGOutput",
+    "MetricScore",
     "__version__",
 ]
