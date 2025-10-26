@@ -22,7 +22,7 @@ def test(config, dataset, output_format, output_file):
     click.echo(f"Running tests with config: {config}")
     click.echo(f"Dataset: {dataset}")
     # TODO: Implement test execution
-    click.echo(" Test execution complete (implementation pending)")
+    click.echo("Test execution complete (implementation pending)")
 
 
 @main.command()
@@ -30,8 +30,8 @@ def init():
     """Initialize RAG Guardian in current directory."""
     click.echo("Initializing RAG Guardian...")
     # TODO: Create example config and test files
-    click.echo(" Created .rag-guardian.yml")
-    click.echo(" Created tests/example_cases.jsonl")
+    click.echo("Created .rag-guardian.yml")
+    click.echo("Created tests/example_cases.jsonl")
 
 
 @main.command()
@@ -42,7 +42,7 @@ def compare(baseline, current, show_regressions):
     """Compare two test results."""
     click.echo(f"Comparing {baseline} vs {current}")
     # TODO: Implement comparison logic
-    click.echo(" Comparison complete (implementation pending)")
+    click.echo("Comparison complete (implementation pending)")
 
 
 @main.command()
@@ -52,7 +52,7 @@ def report(results_file, format):
     """Generate report from results."""
     click.echo(f"Generating {format} report from {results_file}")
     # TODO: Implement report generation
-    click.echo(" Report generated (implementation pending)")
+    click.echo("Report generated (implementation pending)")
 
 
 @main.group()
@@ -67,7 +67,7 @@ def start(config):
     """Start production monitoring."""
     click.echo(f"Starting monitoring with config: {config}")
     # TODO: Implement monitoring
-    click.echo("   Monitoring will be available in v2.0")
+    click.echo("Monitoring will be available in v2.0")
 
 
 @monitor.command()
@@ -75,7 +75,7 @@ def status():
     """Show monitoring status."""
     click.echo("Monitoring status:")
     # TODO: Show actual status
-    click.echo("   Monitoring will be available in v2.0")
+    click.echo("Monitoring will be available in v2.0")
 
 
 if __name__ == "__main__":
