@@ -18,7 +18,28 @@ class MetricType(str, Enum):
 
 @dataclass
 class TestCase:
-    """A single test case for RAG evaluation."""
+    """A single test case for RAG evaluation.
+
+    Test cases define what to ask the RAG system and what to expect back.
+    They can include ground truth answers, expected contexts, and metadata.
+
+    Attributes:
+        question: The question to ask the RAG system
+        expected_answer: Ground truth answer for comparison (optional)
+        expected_contexts: Expected retrieved contexts (optional)
+        metadata: Additional metadata like category, difficulty, tags
+        acceptable_answers: Alternative acceptable answers (optional)
+        required_contexts: Contexts that must be retrieved (optional)
+        forbidden_contexts: Contexts that should not be retrieved (optional)
+
+    Example:
+        >>> test = TestCase(
+        ...     question="What is RAG?",
+        ...     expected_answer="Retrieval-Augmented Generation",
+        ...     acceptable_answers=["RAG is...", "Retrieval augmented generation"],
+        ...     metadata={"category": "basics", "difficulty": "easy"}
+        ... )
+    """
 
     __test__ = False  # Tell pytest this is not a test class
 
