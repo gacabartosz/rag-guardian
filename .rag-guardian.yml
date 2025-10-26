@@ -1,0 +1,124 @@
+# RAG Guardian Configuration Example
+# This is an example configuration file - copy and adjust for your needs
+
+version: 1.0
+
+# Configure your RAG system connection
+rag_system:
+  # Type: "langchain", "llamaindex", or "custom"
+  type: "langchain"
+
+  # For custom HTTP endpoint
+  endpoint: "http://localhost:8000/rag"
+  timeout: 30
+
+  # Optional: Custom headers (supports env vars like ${API_KEY})
+  headers:
+    Authorization: "Bearer ${RAG_API_KEY}"
+    Content-Type: "application/json"
+
+# Metrics configuration
+metrics:
+  # Faithfulness - detects hallucinations
+  faithfulness:
+    enabled: true
+    threshold: 0.85
+    required: true
+    llm_judge: "gpt-4o-mini"  # Model to use for evaluation
+
+  # Groundedness - checks context usage
+  groundedness:
+    enabled: true
+    threshold: 0.80
+    required: false
+
+  # Context relevancy - validates retrieval quality
+  context_relevancy:
+    enabled: true
+    threshold: 0.75
+    method: "hybrid"  # "embedding", "llm", or "hybrid"
+
+  # Answer correctness - compares to ground truth
+  answer_correctness:
+    enabled: true
+    threshold: 0.80
+    fuzzy_matching: true
+
+  # Performance metrics (optional)
+  latency:
+    enabled: true
+    p95_threshold_ms: 2000
+    p99_threshold_ms: 5000
+
+  token_efficiency:
+    enabled: true
+    max_tokens_per_query: 2000
+
+# Test suites
+test_suites:
+  # Quick smoke tests
+  smoke_tests:
+    dataset: "tests/smoke_test.jsonl"
+    run_on: ["push", "pull_request"]
+    parallel: true
+
+  # Full regression suite
+  regression_tests:
+    dataset: "tests/regression_suite.jsonl"
+    run_on: ["release"]
+    parallel: true
+
+  # Edge cases
+  edge_cases:
+    dataset: "tests/edge_cases.jsonl"
+    run_on: ["nightly"]
+    parallel: false
+
+# Reporting configuration
+reporting:
+  # Output formats
+  formats: ["json", "html", "junit"]
+
+  # Output directory
+  output_dir: "results"
+
+  # HTML report settings
+  html:
+    include_charts: true
+    include_examples: true
+    max_failures_shown: 10
+
+  # Slack notifications (optional)
+  slack:
+    enabled: false
+    webhook_url: "${SLACK_WEBHOOK}"
+    notify_on: ["failure", "regression"]
+
+  # Push to dashboard (optional, v2 feature)
+  dashboard:
+    enabled: false
+    push_to: "https://rag-metrics.company.com"
+    api_key: "${DASHBOARD_API_KEY}"
+
+# Advanced settings
+advanced:
+  # Cache embeddings for faster re-runs
+  cache_embeddings: true
+  cache_dir: ".rag_guardian_cache"
+
+  # Auto-generate test cases from production logs
+  auto_generate_tests:
+    enabled: false
+    from_production_logs: false
+    sample_rate: 0.01
+
+  # Regression detection
+  regression_detection:
+    enabled: true
+    baseline_file: "baseline_metrics.json"
+    regression_threshold: 0.05  # 5% drop = regression
+
+  # Parallel execution
+  parallel:
+    enabled: true
+    max_workers: 4
