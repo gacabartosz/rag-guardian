@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "rag-guardian"
-version = "0.1.0"
+version = "1.0.0"
 description = "Production-grade quality assurance framework for RAG systems"
 authors = ["Bartosz Gaca <gacabartosz@gmail.com>"]
 license = "MIT"
@@ -41,10 +41,19 @@ pydantic = "^2.0"
 click = "^8.1.7"
 pyyaml = "^6.0.1"
 
-# For MVP - simplified, these will be added as needed
-# RAG evaluation (coming soon)
-# LLM clients (coming soon)
-# Storage (coming soon)
+# RAG integrations
+langchain = "^0.1.0"
+langchain-community = "^0.0.10"
+
+# HTTP client
+httpx = "^0.26.0"
+
+# For future semantic metrics (optional for MVP)
+# sentence-transformers = "^2.3.0"
+# scikit-learn = "^1.4.0"
+
+# Utilities
+python-dotenv = "^1.0.0"
 
 [tool.poetry.group.dev.dependencies]
 # Testing

@@ -1,7 +1,10 @@
 """Custom HTTP adapter for RAG systems."""
 
-from typing import List, Dict, Any, Optional
+from typing import Any, Dict, List, Optional
 
+import httpx
+
+from rag_guardian.core.types import RAGOutput
 from rag_guardian.integrations.base import BaseRAGAdapter
 
 
@@ -38,12 +41,18 @@ class CustomHTTPAdapter(BaseRAGAdapter):
         Request body: {"query": "..."}
         Response: {"contexts": ["...", "..."]}
         """
-        # TODO: Implement actual HTTP call
-        # For MVP, we'll return placeholder
-        return [
-            f"Context 1 for query: {query}",
-            f"Context 2 for query: {query}",
-        ]
+        try:
+            response = httpx.post(
+                f"{self.endpoint}/retrieve",
+                json={"query": query},
+                headers=self.headers,
+                timeout=self.timeout,
+            )
+            response.raise_for_status()
+            data = response.json()
+            return data.get("contexts", [])
+        except Exception as e:
+            raise RuntimeError(f"Retrieval failed: {e}") from e
 
     def generate(self, query: str, contexts: List[str]) -> str:
         """
@@ -53,9 +62,49 @@ class CustomHTTPAdapter(BaseRAGAdapter):
         Request body: {"query": "...", "contexts": [...]}
         Response: {"answer": "..."}
         """
-        # TODO: Implement actual HTTP call
-        # For MVP, we'll return placeholder
-        return f"Generated answer for: {query} using {len(contexts)} contexts"
+        try:
+            response = httpx.post(
+                f"{self.endpoint}/generate",
+                json={"query": query, "contexts": contexts},
+                headers=self.headers,
+                timeout=self.timeout,
+            )
+            response.raise_for_status()
+            data = response.json()
+            return data.get("answer", "")
+        except Exception as e:
+            raise RuntimeError(f"Generation failed: {e}") from e
+
+    def execute(self, query: str) -> RAGOutput:
+        """
+        Execute full RAG pipeline via HTTP.
+
+        If endpoint supports /rag endpoint (combined), use that.
+        Otherwise, call /retrieve and /generate separately.
+
+        Expected /rag endpoint:
+        Request: {"query": "..."}
+        Response: {"answer": "...", "contexts": [...]}
+        """
+        try:
+            # Try combined endpoint first
+            response = httpx.post(
+                f"{self.endpoint}/rag",
+                json={"query": query},
+                headers=self.headers,
+                timeout=self.timeout,
+            )
+            response.raise_for_status()
+            data = response.json()
+
+            return RAGOutput(
+                question=query,
+                answer=data.get("answer", ""),
+                contexts=data.get("contexts", []),
+            )
+        except httpx.HTTPStatusError:
+            # Fallback to separate retrieve + generate
+            return super().execute(query)
 
 
 class CustomRAGAdapter(BaseRAGAdapter):
