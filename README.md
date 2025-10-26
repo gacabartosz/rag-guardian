@@ -97,6 +97,40 @@ if not results.passed:
     exit(1)
 ```
 
+## Reporting
+
+### HTML Reports
+
+Generate beautiful HTML reports with charts and interactive elements:
+
+```python
+from rag_guardian import Evaluator, HTMLReporter
+
+evaluator = Evaluator.from_config(".rag-guardian.yml")
+results = evaluator.evaluate_dataset("tests/cases.jsonl")
+
+# Generate HTML report
+HTMLReporter.generate(results, "results/report.html")
+```
+
+Features:
+- 📊 Interactive progress bars and charts
+- 🎨 Beautiful gradient design
+- 📱 Mobile-responsive layout
+- 🔍 Expandable test details
+- ⚡ Fast and self-contained (no external dependencies)
+
+### JSON Reports
+
+```python
+from rag_guardian import JSONReporter
+
+JSONReporter.save(results, "results/results.json")
+
+# Or use CLI:
+# rag-guardian test --dataset tests/cases.jsonl --output-format json
+```
+
 ## Integrations
 
 ### LangChain
@@ -142,19 +176,28 @@ Add to GitHub Actions:
 
 Now your RAG gets tested on every PR.
 
-## What's coming
+## What's included
 
-Current version (v0.1):
-- Core metrics
-- CLI and Python API
-- LangChain integration
-- Basic reporting
+Current version (v1.0.0 MVP):
+- ✅ 4 core quality metrics (faithfulness, groundedness, relevancy, correctness)
+- ✅ Full CLI and Python API
+- ✅ LangChain integration
+- ✅ JSON and HTML reporting
+- ✅ Example test cases and quickstart
+- ✅ GitHub Actions CI/CD integration
+- ✅ Custom HTTP adapter for any RAG system
 
-Soon:
+Coming in v1.5:
+- Semantic similarity metrics with embeddings
+- SQLite storage for baselines
 - LlamaIndex support
-- Web dashboard
-- Production monitoring
-- Slack/PagerDuty alerts
+- Slack notifications
+
+Coming in v2.0:
+- Production monitoring with sampling
+- Web dashboard (FastAPI + React)
+- Advanced alerting (PagerDuty, OpsGenie)
+- LLM-as-judge metrics
 
 ## Installation from source
 

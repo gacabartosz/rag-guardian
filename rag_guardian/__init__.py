@@ -6,13 +6,26 @@ __email__ = "hello@bartoszgaca.pl"
 
 # Core types and config
 from rag_guardian.core.config import Config
+from rag_guardian.core.loader import DataLoader
 from rag_guardian.core.pipeline import EvaluationPipeline, Evaluator
 from rag_guardian.core.types import (
     EvaluationResult,
     MetricScore,
+    MetricType,
     RAGOutput,
     TestCase,
     TestCaseResult,
+)
+
+# Exceptions
+from rag_guardian.exceptions import (
+    ConfigurationError,
+    DatasetError,
+    IntegrationError,
+    MetricComputationError,
+    PipelineError,
+    RAGGuardianError,
+    ValidationError,
 )
 
 # Integrations
@@ -23,6 +36,7 @@ from rag_guardian.integrations.custom import CustomHTTPAdapter, CustomRAGAdapter
 from rag_guardian.metrics.base import BaseMetric
 
 # Reporting
+from rag_guardian.reporting.html import HTMLReporter
 from rag_guardian.reporting.json import JSONReporter
 
 __all__ = [
@@ -30,6 +44,7 @@ __all__ = [
     "__version__",
     # Core
     "Config",
+    "DataLoader",
     "EvaluationPipeline",
     "Evaluator",
     # Types
@@ -38,6 +53,15 @@ __all__ = [
     "TestCaseResult",
     "RAGOutput",
     "MetricScore",
+    "MetricType",
+    # Exceptions
+    "RAGGuardianError",
+    "ConfigurationError",
+    "DatasetError",
+    "MetricComputationError",
+    "IntegrationError",
+    "ValidationError",
+    "PipelineError",
     # Integrations
     "BaseRAGAdapter",
     "CustomRAGAdapter",
@@ -46,4 +70,5 @@ __all__ = [
     "BaseMetric",
     # Reporting
     "JSONReporter",
+    "HTMLReporter",
 ]
