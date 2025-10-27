@@ -9,56 +9,102 @@
 
 ---
 
-## The Problem
+## The Problem (a.k.a. "why are we still praying before deploys?")
 
-You built a RAG system. It works... sometimes. Sometimes it hallucinates. Sometimes it pulls wrong docs.
+You ship a RAG to prod. It talks. It answers. But:
+- Does it hallucinate?
+- Does it use the right docs?
+- Does retrieval actually pull what it should?
+- How do you catch this **before** a client sees nonsense?
 
-You spend **2 hours manually testing** before each release. And bugs still slip through to production.
+**Old way:** manual spot-checks, crossed fingers, and hope.
+**Better way:** automated RAG quality tests. Pytest for code → RAG Guardian for RAGs.
 
-**There had to be a better way.**
+## What You Get in Practice
 
-## The Solution
+After ~30 minutes of setup:
+- ✅ Auto-tests on every deploy
+- ✅ Metrics that pinpoint what broke
+- ✅ Shareable HTML reports (client/boss-ready)
+- ✅ CI/CD integration – tests block merges when things go south
 
-Automated RAG testing. Like pytest for your code, but for RAG systems.
+**Result:** 2h of manual checks → 5 minutes of automated tests.
 
-**Setup time:** 5 minutes
-**Testing time:** 30 seconds
-**Bugs caught:** Before your users see them
-
-## Quick Start
+## How It Works — 3 Commands
 
 ```bash
+# 1) Install
 pip install rag-guardian
+
+# 2) Generate config
 rag-guardian init
-rag-guardian test --dataset tests/my_cases.jsonl
+
+# 3) Run tests
+rag-guardian test --dataset tests/my_test_cases.jsonl
 ```
 
-**Output:**
+**Sample output:**
+
 ```
+🚀 RAG Guardian - Starting Evaluation
+
+✅ Loaded 20 test cases
+🔄 Running evaluation...
+
+============================================================
+RAG GUARDIAN - EVALUATION SUMMARY
+============================================================
+Overall Status: ❌ FAILED (3/20 tests failed)
+Pass Rate: 85.0%
+
+METRICS:
 ✅ faithfulness        : 0.92 (threshold: 0.85)
 ✅ groundedness        : 0.88 (threshold: 0.80)
-❌ context_relevancy   : 0.68 (threshold: 0.75)  ← Fix this
+❌ context_relevancy   : 0.68 (threshold: 0.75)  ← FIX THIS
 ✅ answer_correctness  : 0.90 (threshold: 0.80)
 
-FAILED: 2/20 tests
-- "What's the shipping time?" - retrieval failed (0.68)
-- "Can I cancel order?" - wrong answer (0.65)
+FAILED TESTS:
+1. "What's the shipping time?" - retrieval failed (score: 0.68)
+2. "Can I cancel my order?"   - wrong answer (score: 0.65)
+3. "What's your phone number?"- hallucinated (score: 0.71)
+============================================================
 ```
 
-Now you know **exactly** what's broken. No guessing.
+**Conclusion:** You know exactly what to fix. No vague "something's off."
 
-## What It Tests (4 Metrics)
+## API in ~10 Lines
 
-**Faithfulness** - Is your RAG making stuff up?
-**Groundedness** - Is it using the retrieved context?
-**Context Relevancy** - Is retrieval finding the right docs?
-**Answer Correctness** - Does it match expected output?
+```python
+from rag_guardian import Evaluator, TestCase
 
-Each metric gets a score 0-1. Set your threshold (default: 0.80). Test fails if metric drops below threshold.
+tests = [
+    TestCase(question="What's your returns policy?", expected_answer="30 days, no questions asked"),
+    TestCase(question="Do you ship internationally?", expected_answer="Yes, to 50+ countries"),
+]
+
+evaluator = Evaluator.from_config(".rag-guardian.yml")
+results = evaluator.evaluate_dataset(tests)
+
+if results.passed:
+    print("✅ All good — ship it!")
+else:
+    print(f"❌ {results.failed_tests} tests failed — fix before deploy")
+    for fail in results.failures:
+        print(f"  - {fail.test_case.question}: {fail.failure_reasons}")
+```
+
+## What We Measure (4 Metrics)
+
+**Faithfulness (0–1)** — Answer sticks to provided context.
+**Groundedness (0–1)** — Uses retrieved docs vs. improv theatre.
+**Context Relevancy (0–1)** — Retrieval pulled the right passages.
+**Answer Correctness (0–1)** — Matches the expected answer.
+
+Each metric has a threshold (e.g., 0.80). Fail a threshold → test fails → CI/CD blocks → you fix it before prod.
 
 Simple. Effective.
 
-## Works With What You Have
+## Works With Your Stack
 
 ### LangChain (3 lines)
 
@@ -66,28 +112,33 @@ Simple. Effective.
 from langchain.chains import RetrievalQA
 from rag_guardian.integrations import LangChainAdapter
 
-qa_chain = RetrievalQA.from_chain_type(...)  # Your existing chain
+qa_chain = RetrievalQA.from_chain_type(...)  # your existing chain
 
 adapter = LangChainAdapter(qa_chain)
 evaluator = Evaluator(adapter)
 results = evaluator.evaluate_dataset("tests.jsonl")
 ```
 
-### LlamaIndex (3 lines)
+### LlamaIndex (vector store adapter)
 
 ```python
 from rag_guardian.integrations import LlamaIndexVectorStoreAdapter
 
-index = VectorStoreIndex.from_documents(docs)  # Your existing index
+index = VectorStoreIndex.from_documents(documents)  # your existing index
 
 adapter = LlamaIndexVectorStoreAdapter(index, similarity_top_k=3)
 evaluator = Evaluator(adapter)
 results = evaluator.evaluate_dataset("tests.jsonl")
 ```
 
-### Custom RAG (implement 2 methods)
+**Other adapters:**
+- `LlamaIndexAdapter` (any QueryEngine)
+- `LlamaIndexChatEngineAdapter` (chat RAG)
+
+### Custom RAG
 
 ```python
+from typing import List
 from rag_guardian.integrations import CustomRAGAdapter
 
 class MyRAG(CustomRAGAdapter):
@@ -100,85 +151,59 @@ class MyRAG(CustomRAGAdapter):
 evaluator = Evaluator(MyRAG())
 ```
 
-Or use HTTP adapter if you have an API endpoint.
-
-## Real Example: E-commerce Support
-
-**Setup:**
-- RAG on 100+ FAQ docs
-- 50 test cases with expected answers
-- Threshold: 0.85 for all metrics
-- CI/CD integration
-
-**What happens:**
-
-1. Developer changes prompt template
-2. Pushes to GitHub
-3. GitHub Actions runs `rag-guardian test`
-4. Faithfulness drops from 0.91 → 0.78
-5. Test fails ❌
-6. PR blocked until fixed
-7. Developer fixes prompt
-8. Test passes ✅ → Merge → Deploy
-
-**Result:** Bug caught before production. Customer never sees it.
-
-**ROI:** One production bug = 3-5 hours debugging + hotfix + damage control. You just saved that.
-
-## Python API
+### HTTP API
 
 ```python
-from rag_guardian import Evaluator, TestCase
+from rag_guardian.integrations import CustomHTTPAdapter
 
-# Your test cases
-tests = [
-    TestCase(
-        question="What's your return policy?",
-        expected_answer="30 days, no questions"
-    ),
-    TestCase(
-        question="Do you ship internationally?",
-        expected_answer="Yes, 50+ countries"
-    )
-]
-
-# Run evaluation
-evaluator = Evaluator.from_config(".rag-guardian.yml")
-results = evaluator.evaluate_dataset(tests)
-
-# Check results
-if results.passed:
-    print("✅ All good - ship it!")
-else:
-    print(f"❌ {results.failed_tests} tests failed")
-    for fail in results.failures:
-        print(f"  - {fail.test_case.question}")
-    exit(1)
+adapter = CustomHTTPAdapter(
+    endpoint="http://your-rag-api.com/query",
+    headers={"Authorization": "Bearer token"},
+    timeout=30,
+    max_retries=3,
+)
 ```
 
-## Reports
+## Real-World: E-commerce Support
+
+**RAG over 100+ FAQs**
+**50 test cases with expected answers**
+**Thresholds at 0.85**
+
+**Workflow:**
+1. Dev tweaks prompt template
+2. Push to GitHub
+3. GitHub Actions runs `rag-guardian test`
+4. Faithfulness drops 0.91 → 0.78 → PR gets ❌
+5. Fix, re-run, ✅ → merge → deploy
+
+**Outcome:** You catch the bug before customers do. One avoided prod-bug = hours saved on firefighting.
+
+## Reports You Can Show
 
 ### HTML (for humans)
 
 ```python
 from rag_guardian import HTMLReporter
 
+results = evaluator.evaluate_dataset("tests.jsonl")
 HTMLReporter.generate(results, "report.html")
 ```
 
-Opens in browser. Color-coded. Mobile-friendly. Self-contained. Share with your team.
+- Charts for each metric
+- Pass rate %
+- Clear failed tests with reasons
+- Mobile-friendly
 
 ### JSON (for machines)
 
-```python
-from rag_guardian import JSONReporter
-
-JSONReporter.save(results, "results.json")
+```bash
+rag-guardian test --dataset tests.jsonl --output-format json
 ```
 
-Perfect for CI/CD, monitoring tools, dashboards.
+Perfect for CI parsing, Slack pings—whatever your ops needs.
 
-## CI/CD Integration
+## CI/CD — GitHub Actions
 
 ```yaml
 name: RAG Quality Tests
@@ -202,82 +227,93 @@ jobs:
         run: pip install rag-guardian
 
       - name: Run tests
-        run: rag-guardian test --dataset tests/cases.jsonl
+        run: |
+          rag-guardian test \
+            --config .rag-guardian.yml \
+            --dataset tests/rag_test_cases.jsonl
+
+      - name: Upload results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: rag-test-results
+          path: results/
 ```
 
-Every PR gets tested. No merge until RAG passes. Simple.
+Every PR tested. No merge until the RAG passes.
 
-## What You Get
+## What's In v1.0.0
 
-- ✅ **4 metrics** - faithfulness, groundedness, relevancy, correctness
-- ✅ **119 tests passing** - battle-tested codebase
-- ✅ **68% coverage** - production quality
-- ✅ **LangChain + LlamaIndex** - works out-of-the-box
-- ✅ **Custom RAG support** - 2 methods to implement
-- ✅ **HTML + JSON reports** - for humans and machines
-- ✅ **CI/CD ready** - GitHub Actions examples included
-- ✅ **MIT license** - use it however you want
+- ✅ **4 metrics:** faithfulness, groundedness, context relevancy, answer correctness
+- ✅ **CLI + Python API**
+- ✅ **LangChain + LlamaIndex ready**
+- ✅ **Custom integrations** (HTTP adapter / subclass CustomRAGAdapter)
+- ✅ **HTML + JSON reports**
+- ✅ **119 tests (68% coverage)**
+- ✅ **CI/CD examples**
+- ✅ **Reproducible builds** (poetry.lock committed)
 
 ## Roadmap
 
-**v1.1** (January 2025)
-- Semantic similarity metrics (better accuracy with embeddings)
-- Baseline comparison (track changes over time)
+**v1.1** (Jan 2025)
+- Semantic similarity (embeddings) → better accuracy
+- Baseline comparison (before/after)
 - Slack notifications
 
 **v1.5** (Q1 2025)
-- Performance metrics (latency, token usage, costs)
-- Batch processing (test 500+ cases in parallel)
-- SQL storage for historical analysis
+- Perf metrics (latency, tokens, cost)
+- Batch 500+ test cases
+- SQL storage for trend analysis
 
 **v2.0** (Q2 2025)
-- Production monitoring (sample real user queries)
-- Web dashboard
-- LLM-as-judge evaluation
+- Production monitoring (sample real queries)
+- Web dashboard over time
+- LLM-as-judge for complex evals
 
-## Installation
+## Install
 
+**PyPI:**
 ```bash
 pip install rag-guardian
 ```
 
-Or from source:
-
+**From source:**
 ```bash
 git clone https://github.com/gacabartosz/rag-guardian.git
 cd rag-guardian
 poetry install
-poetry run pytest  # All 119 tests should pass
+poetry run pytest  # 119 tests should pass
 ```
 
-**Requirements:** Python 3.10+ (tested on 3.12)
+**Requires:** Python 3.10+ (tested on 3.12)
 
-## FAQ
+## FAQ (Short, Useful, Brutal)
 
-**Q: Different from Ragas?**
-A: Ragas is research-oriented. RAG Guardian is testing-oriented (like pytest). We have first-class LangChain/LlamaIndex support, HTML reports, CI/CD integration out-of-the-box.
+**How is this different from Ragas?**
+Ragas = research/experiments. RAG Guardian = pytest for RAG with CI/CD, first-class LangChain/LlamaIndex adapters, and pretty HTML reports.
 
-**Q: Which LLMs work?**
-A: All of them. RAG Guardian tests the RAG **system**, not the model. OpenAI, Anthropic, local Llama, whatever. Just wrap it in an adapter.
+**Do I need a running RAG?**
+Yes—this hits live systems. You can mock responses (like unit tests).
 
-**Q: Need a running RAG to test?**
-A: Yes. RAG Guardian tests live systems. But you can mock responses in tests (like unit tests).
+**Which LLMs?**
+All of them. We test the **system**, not the model. Wrap it in an adapter and go.
 
-**Q: How accurate are metrics?**
-A: v1.0 uses keyword matching - fast, ~80-85% accurate. v1.1 will add semantic similarity with embeddings - slower, ~90-95% accurate.
+**Metric accuracy?**
+v1.0 → keyword matching (~80–85%).
+v1.1 → embeddings (~90–95%).
 
-**Q: Can I add custom metrics?**
-A: Yes. Extend `BaseMetric`, implement `evaluate()`. See [examples/](examples/) for how.
+**Custom metric?**
+Subclass `BaseMetric`, implement `evaluate()`. Examples included.
 
-**Q: Production ready?**
-A: Yes. v1.0 is stable, 119 passing tests, used in real projects. Use it in CI/CD now. Production monitoring (v2.0) adds real-time features like dashboards.
+**Production-ready?**
+Yes. v1.0 is stable, 119 tests, used in real projects. Ship it.
 
-**Q: How much?**
-A: €0. Free. Open-source. MIT license.
+**Cost?**
+€0. MIT. Do your thing.
 
 ## Contributing
 
-Found a bug? Have an idea? PRs welcome.
+PRs welcome. Black, isort, Ruff, mypy included. Tests mandatory.
 
 ```bash
 git clone https://github.com/gacabartosz/rag-guardian.git
@@ -288,39 +324,34 @@ poetry install
 poetry run pytest
 
 # Format
-poetry run black .
-poetry run isort .
+poetry run black . && poetry run isort .
 
 # Lint
 poetry run ruff check .
 ```
 
-## Credits
+## Tech Stack & Credits
 
-Built with:
-- [LangChain](https://github.com/langchain-ai/langchain)
-- [LlamaIndex](https://github.com/jerryjliu/llama_index)
-- [httpx](https://github.com/encode/httpx)
+Built with [LangChain](https://github.com/langchain-ai/langchain), [LlamaIndex](https://github.com/jerryjliu/llama_index), [httpx](https://github.com/encode/httpx).
 
-Inspired by:
-- [Ragas](https://github.com/explodinggradients/ragas) - metrics concepts
-- [pytest](https://github.com/pytest-dev/pytest) - testing philosophy
+Inspired by [Ragas](https://github.com/explodinggradients/ragas) (metrics ideas) & [pytest](https://github.com/pytest-dev/pytest) (philosophy).
 
 ---
 
-**Made by [Bartosz Gaca](https://bartoszgaca.pl)**
-AI & Automation Strategist
+## Author
 
-*I built RAG Guardian because I was tired of manually testing RAG systems before every deploy. Now I run tests in 30 seconds, get a clear pass/fail, and ship with confidence.*
+**[Bartosz Gaca](https://bartoszgaca.pl)** — AI & Automation Strategist
 
-*If you're building RAG systems and want to stop worrying about hallucinations in production - this is for you.*
+*I built RAG Guardian because I was done hand-checking hallucinations before every deploy. Now it's 5 minutes, HTML report, git push. Done.*
+
+*If you're building RAG systems and tired of production surprises — this is for you.*
 
 ---
 
 **License:** MIT
 
 **Links:**
-- 📦 [PyPI](https://pypi.org/project/rag-guardian/) - `pip install rag-guardian`
-- 💻 [GitHub](https://github.com/gacabartosz/rag-guardian) - Source code
-- 🌐 [Website](https://bartoszgaca.pl) - More tools
-- 📧 [Issues](https://github.com/gacabartosz/rag-guardian/issues) - Bug reports, questions
+- 📦 [PyPI](https://pypi.org/project/rag-guardian/) — `pip install rag-guardian`
+- 💻 [GitHub](https://github.com/gacabartosz/rag-guardian) — Source code
+- 🌐 [Website](https://bartoszgaca.pl) — More tools
+- 📧 [Contact](https://github.com/gacabartosz/rag-guardian/issues) — Bug reports, questions
