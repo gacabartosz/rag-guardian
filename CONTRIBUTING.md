@@ -143,7 +143,7 @@ Open an issue describing:
 
 ## Questions?
 
-Open a discussion or reach out at hello@bartoszgaca.pl
+Open a discussion or reach out at gaca.bartosz@gmail.com
 
 ## License
 

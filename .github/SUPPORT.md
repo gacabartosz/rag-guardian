@@ -41,7 +41,7 @@ Need dedicated support for your enterprise RAG deployment?
 - **Priority support** - Get fast responses and bug fixes
 - **SLA guarantees** - Production-ready support contracts
 
-Contact: **gacabartosz@gmail.com** or visit [bartoszgaca.pl](https://bartoszgaca.pl)
+Contact: **gaca.bartosz@gmail.com** or visit [bartoszgaca.pl](https://bartoszgaca.pl)
 
 ## 🐛 Reporting Bugs
 
@@ -58,7 +58,7 @@ Use our [bug report template](https://github.com/gacabartosz/rag-guardian/issues
 
 **DO NOT** report security vulnerabilities in public issues.
 
-Instead, email **gacabartosz@gmail.com** with:
+Instead, email **gaca.bartosz@gmail.com** with:
 - Description of the vulnerability
 - Steps to reproduce
 - Potential impact
@@ -89,7 +89,7 @@ Want to contribute code, docs, or examples?
 
 - **GitHub Issues**: Bug reports and feature requests
 - **GitHub Discussions**: Questions and community support
-- **Email**: gacabartosz@gmail.com (commercial support, security issues)
+- **Email**: gaca.bartosz@gmail.com (commercial support, security issues)
 - **Website**: [bartoszgaca.pl](https://bartoszgaca.pl)
 
 ## ⏱️ Response Times

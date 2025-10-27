@@ -208,4 +208,4 @@ jobs:
 ### Need help?
 - Open an issue on GitHub
 - Check discussions
-- Email hello@bartoszgaca.pl
+- Email gaca.bartosz@gmail.com

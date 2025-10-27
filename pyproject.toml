@@ -2,7 +2,7 @@
 name = "rag-guardian"
 version = "1.0.0"
 description = "Production-grade quality assurance framework for RAG systems"
-authors = ["Bartosz Gaca <gacabartosz@gmail.com>"]
+authors = ["Bartosz Gaca <gaca.bartosz@gmail.com>"]
 license = "MIT"
 readme = "README.md"
 homepage = "https://github.com/gacabartosz/rag-guardian"

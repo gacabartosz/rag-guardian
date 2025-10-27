@@ -13,7 +13,7 @@
 
 ### Jak zgłosić:
 
-1. **Email:** Wyślij na gacabartosz@gmail.com z tematem "[SECURITY] RAG Guardian"
+1. **Email:** Wyślij na gaca.bartosz@gmail.com z tematem "[SECURITY] RAG Guardian"
 2. **Treść:** Opisz vulnerability jasno i dokładnie
 3. **Response time:** Odpowiem w ciągu 48h
 
@@ -65,4 +65,4 @@ Zgłaszający security issues będą uznani publicznie (jeśli chcą) po wydaniu
 
 ---
 
-**Pytania?** gacabartosz@gmail.com
+**Pytania?** gaca.bartosz@gmail.com

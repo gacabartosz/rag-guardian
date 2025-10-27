@@ -2,7 +2,7 @@
 
 __version__ = "1.0.0"
 __author__ = "Bartosz Gaca"
-__email__ = "hello@bartoszgaca.pl"
+__email__ = "gaca.bartosz@gmail.com"
 
 # Core types and config
 from rag_guardian.core.config import Config
