@@ -92,3 +92,5 @@ site/
 Network Trash Folder
 Temporary Items
 .apdisk
+results/*
+!results/.gitkeep
