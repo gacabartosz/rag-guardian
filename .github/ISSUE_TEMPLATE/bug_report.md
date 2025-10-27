@@ -1,46 +1,46 @@
 ---
 name: Bug report
-about: Coś nie działa? Zgłoś bug
+about: Report something that's not working
 title: '[BUG] '
 labels: bug
 assignees: ''
 ---
 
-## Opis problemu
+## Problem Description
 
-Jasny opis co nie działa.
+Clear description of what's not working.
 
-## Kroki do reprodukcji
+## Steps to Reproduce
 
-1. Uruchom '...'
-2. Wywołaj '...'
-3. Zobacz error '...'
+1. Run '...'
+2. Call '...'
+3. See error '...'
 
-## Oczekiwane zachowanie
+## Expected Behavior
 
-Co powinno się stać.
+What should happen.
 
-## Faktyczne zachowanie
+## Actual Behavior
 
-Co się stało.
+What actually happened.
 
 ## Environment
 
-- OS: [np. macOS 14.0, Ubuntu 22.04]
-- Python: [np. 3.11.5]
-- RAG Guardian: [np. 1.0.0]
-- Framework: [np. LangChain 0.1.0, LlamaIndex, Custom]
+- OS: [e.g., macOS 14.0, Ubuntu 22.04]
+- Python: [e.g., 3.11.5]
+- RAG Guardian: [e.g., 1.0.0]
+- Framework: [e.g., LangChain 0.1.0, LlamaIndex, Custom]
 
-## Dodatkowe info
+## Additional Info
 
 Logs, screenshots, whatever helps.
 
 ```
-# Jeśli masz logi/traceback - wklej tutaj
+# If you have logs/traceback - paste here
 ```
 
 ## Checklist
 
-- [ ] Sprawdziłem że nie ma już takiego issue
-- [ ] Dołączyłem wszystkie potrzebne info
-- [ ] Mogę odtworzyć bug konsekwentnie
+- [ ] I checked for existing issues
+- [ ] I included all necessary information
+- [ ] I can reproduce this bug consistently

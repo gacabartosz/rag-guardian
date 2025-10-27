@@ -1,45 +1,45 @@
 ---
 name: Feature request
-about: Pomysł na nową funkcję
+about: Suggest a new feature or improvement
 title: '[FEATURE] '
 labels: enhancement
 assignees: ''
 ---
 
-## Problem który to rozwiązuje
+## Problem This Solves
 
-Opisz przypadek użycia. Co jest teraz niewygodne/niemożliwe?
+Describe the use case. What's currently inconvenient or impossible?
 
-**Example:** "Nie mogę testować RAG-a który zwraca streamed responses..."
+**Example:** "I can't test a RAG that returns streamed responses..."
 
-## Proponowane rozwiązanie
+## Proposed Solution
 
-Jak to powinno działać?
+How should this work?
 
 ```python
-# Przykład API/użycia jeśli masz w głowie
+# Example API/usage if you have something in mind
 evaluator = Evaluator(...)
-results = evaluator.evaluate_streaming(...)  # Coś takiego?
+results = evaluator.evaluate_streaming(...)  # Something like this?
 ```
 
-## Alternatywy
+## Alternatives
 
-Jakie inne rozwiązania rozważałeś?
+What other solutions have you considered?
 
-## Dodatkowe info
+## Additional Info
 
-Screenshots, linki do podobnych implementacji, whatever.
+Screenshots, links to similar implementations, whatever helps.
 
-## Use case
+## Use Case
 
-- [ ] To jest dla mojego projektu (opisz jaki)
-- [ ] To pomogłoby wielu użytkownikom (jak myślisz?)
-- [ ] Mam czas żeby pomóc z implementacją (PR welcome!)
+- [ ] This is for my project (describe which one)
+- [ ] This would help many users (how do you think?)
+- [ ] I have time to help with implementation (PR welcome!)
 
-## Roadmap fit
+## Roadmap Fit
 
-Gdzie to pasuje w roadmapie?
+Where does this fit in the roadmap?
 - [ ] v1.1 (semantic metrics)
 - [ ] v1.5 (performance)
 - [ ] v2.0 (monitoring)
-- [ ] Nowa categoria
+- [ ] New category
