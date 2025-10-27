@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  rag-guardian:
+    build: .
+    image: rag-guardian:latest
+    container_name: rag-guardian
+    volumes:
+      - ./tests:/app/tests:ro
+      - ./results:/app/results
+      - ./.rag-guardian.yml:/app/.rag-guardian.yml:ro
+    environment:
+      - RAG_GUARDIAN_LOG_LEVEL=INFO
+    command: test --dataset /app/tests/example_cases.jsonl
