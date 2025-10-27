@@ -348,6 +348,35 @@ Inspired by [Ragas](https://github.com/explodinggradients/ragas) (metrics ideas)
 
 ---
 
+## 🐳 Docker Support
+
+### Quick Start with Docker
+
+```bash
+# Build image
+docker build -t rag-guardian .
+
+# Run tests
+docker run -v $(pwd)/tests:/app/tests \
+           -v $(pwd)/results:/app/results \
+           rag-guardian test --dataset /app/tests/example_cases.jsonl
+
+# Or use docker-compose
+docker-compose up
+```
+
+### Docker Configuration
+
+`docker-compose.yml`:
+- Mounts `./tests` (read-only) for test cases
+- Mounts `./results` for output
+- Mounts `./.rag-guardian.yml` for configuration
+- Sets `RAG_GUARDIAN_LOG_LEVEL=INFO`
+
+Perfect for CI/CD or isolated testing environments.
+
+---
+
 **License:** MIT
 
 **Links:**
