@@ -230,7 +230,7 @@ class LlamaIndexVectorStoreAdapter(LlamaIndexAdapter):
     Handles VectorStoreIndex-specific patterns.
     """
 
-    def __init__(self, index: Any, **query_kwargs):
+    def __init__(self, index: Any, **query_kwargs: Any) -> None:
         """
         Initialize from VectorStoreIndex.
 

@@ -48,7 +48,8 @@ class JSONReporter:
             Dictionary with evaluation data
         """
         with open(input_path, encoding="utf-8") as f:
-            return json.load(f)
+            data: dict[str, Any] = json.load(f)
+            return data
 
     @staticmethod
     def _to_dict(result: EvaluationResult) -> dict[str, Any]:

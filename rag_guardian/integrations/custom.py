@@ -1,6 +1,7 @@
 """Custom HTTP adapter for RAG systems."""
 
 import time
+from typing import Any
 
 import httpx
 
@@ -40,7 +41,7 @@ class CustomHTTPAdapter(BaseRAGAdapter):
         self.timeout = timeout
         self.max_retries = max_retries
 
-    def _retry_request(self, func, *args, **kwargs):
+    def _retry_request(self, func: Any, *args: Any, **kwargs: Any) -> Any:
         """
         Execute HTTP request with retry logic and exponential backoff.
 
@@ -54,7 +55,7 @@ class CustomHTTPAdapter(BaseRAGAdapter):
         Raises:
             IntegrationError: If all retries fail
         """
-        last_error = None
+        last_error: httpx.HTTPError | None = None
 
         for attempt in range(self.max_retries):
             try:
@@ -95,7 +96,7 @@ class CustomHTTPAdapter(BaseRAGAdapter):
             IntegrationError: If retrieval fails after all retries
         """
 
-        def _make_request():
+        def _make_request() -> httpx.Response:
             response = httpx.post(
                 f"{self.endpoint}/retrieve",
                 json={"query": query},
@@ -108,7 +109,8 @@ class CustomHTTPAdapter(BaseRAGAdapter):
         try:
             response = self._retry_request(_make_request)
             data = response.json()
-            return data.get("contexts", [])
+            contexts: list[str] = data.get("contexts", [])
+            return contexts
 
         except httpx.HTTPStatusError as e:
             # HTTP error (4xx, 5xx)
@@ -140,7 +142,7 @@ class CustomHTTPAdapter(BaseRAGAdapter):
             IntegrationError: If generation fails after all retries
         """
 
-        def _make_request():
+        def _make_request() -> httpx.Response:
             response = httpx.post(
                 f"{self.endpoint}/generate",
                 json={"query": query, "contexts": contexts},
@@ -153,7 +155,8 @@ class CustomHTTPAdapter(BaseRAGAdapter):
         try:
             response = self._retry_request(_make_request)
             data = response.json()
-            return data.get("answer", "")
+            answer: str = str(data.get("answer", ""))
+            return answer
 
         except httpx.HTTPStatusError as e:
             # HTTP error (4xx, 5xx)
@@ -188,7 +191,7 @@ class CustomHTTPAdapter(BaseRAGAdapter):
             IntegrationError: If execution fails after all retries
         """
 
-        def _make_request():
+        def _make_request() -> httpx.Response:
             response = httpx.post(
                 f"{self.endpoint}/rag",
                 json={"query": query},

@@ -74,7 +74,7 @@ class Config(BaseModel):
             return [cls._substitute_env_vars(item) for item in data]
         elif isinstance(data, str):
             # Replace ${VAR_NAME} with environment variable value
-            def replace_env_var(match):
+            def replace_env_var(match: re.Match[str]) -> str:
                 var_name = match.group(1)
                 return os.environ.get(var_name, match.group(0))
 

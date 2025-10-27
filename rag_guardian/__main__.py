@@ -7,7 +7,7 @@ from rag_guardian import __version__
 
 @click.group()
 @click.version_option(__version__)
-def main():
+def main() -> None:
     """RAG Guardian - Testing and monitoring for RAG systems."""
     pass
 
@@ -18,7 +18,9 @@ def main():
 @click.option("--output-format", default="json", help="Output format (json/html/junit)")
 @click.option("--output-file", help="Output file path")
 @click.option("--rag-endpoint", help="RAG endpoint URL (for custom adapter)")
-def test(config, dataset, output_format, output_file, rag_endpoint):
+def test(
+    config: str, dataset: str, output_format: str, output_file: str | None, rag_endpoint: str | None
+) -> None:
     """Run RAG quality tests."""
     import sys
     from pathlib import Path
@@ -71,6 +73,7 @@ def test(config, dataset, output_format, output_file, rag_endpoint):
         JSONReporter.print_summary(result)
 
         # Save results
+        output_path: str | Path
         if output_file:
             output_path = output_file
         else:
@@ -99,7 +102,7 @@ def test(config, dataset, output_format, output_file, rag_endpoint):
 
 @main.command()
 @click.option("--output-dir", default=".", help="Directory to initialize")
-def init(output_dir):
+def init(output_dir: str) -> None:
     """Initialize RAG Guardian in current directory."""
     from pathlib import Path
 
@@ -193,7 +196,7 @@ reporting:
 @click.argument("baseline")
 @click.argument("current")
 @click.option("--show-regressions", is_flag=True, help="Show only regressions")
-def compare(baseline, current, show_regressions):
+def compare(baseline: str, current: str, show_regressions: bool) -> None:
     """Compare two test results."""
     click.echo(f"Comparing {baseline} vs {current}")
     # TODO: Implement comparison logic
@@ -203,7 +206,7 @@ def compare(baseline, current, show_regressions):
 @main.command()
 @click.argument("results_file")
 @click.option("--format", default="html", help="Report format (html/text)")
-def report(results_file, format):
+def report(results_file: str, format: str) -> None:
     """Generate report from results."""
     click.echo(f"Generating {format} report from {results_file}")
     # TODO: Implement report generation
@@ -211,14 +214,14 @@ def report(results_file, format):
 
 
 @main.group()
-def monitor():
+def monitor() -> None:
     """Production monitoring commands."""
     pass
 
 
 @monitor.command()
 @click.option("--config", default="monitoring.yml", help="Monitoring config")
-def start(config):
+def start(config: str) -> None:
     """Start production monitoring."""
     click.echo(f"Starting monitoring with config: {config}")
     # TODO: Implement monitoring
@@ -226,7 +229,7 @@ def start(config):
 
 
 @monitor.command()
-def status():
+def status() -> None:
     """Show monitoring status."""
     click.echo("Monitoring status:")
     # TODO: Show actual status

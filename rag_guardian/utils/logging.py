@@ -13,7 +13,7 @@ LOG_FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
 
 # Global configuration
-_loggers = {}
+_loggers: dict[str, logging.Logger] = {}
 _configured = False
 
 

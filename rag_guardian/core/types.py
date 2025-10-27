@@ -53,7 +53,7 @@ class TestCase:
     required_contexts: list[str] | None = None
     forbidden_contexts: list[str] | None = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         """Validate test case."""
         if not self.question:
             raise ValueError("Question cannot be empty")
@@ -73,7 +73,7 @@ class RAGOutput:
     retrieval_latency_ms: float | None = None
     generation_latency_ms: float | None = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         """Validate RAG output."""
         if not self.answer:
             raise ValueError("Answer cannot be empty")
@@ -91,7 +91,7 @@ class MetricScore:
     threshold: float | None = None
     details: dict[str, Any] = field(default_factory=dict)
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         """Validate metric score."""
         if not 0.0 <= self.value <= 1.0:
             raise ValueError(f"Metric value must be between 0 and 1, got {self.value}")

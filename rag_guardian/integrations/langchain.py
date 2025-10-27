@@ -105,7 +105,8 @@ class LangChainAdapter(BaseRAGAdapter):
                 # Try common keys
                 for key in ["answer", "result", "text", "output"]:
                     if key in result:
-                        return result[key]
+                        answer: str = str(result[key])
+                        return answer
                 # If no known key, return str representation
                 return str(result)
             else:
