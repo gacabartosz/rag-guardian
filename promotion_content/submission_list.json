@@ -1,0 +1,147 @@
+{
+  "Agregatory projektów": [
+    {
+      "name": "Hacker News (Show HN)",
+      "url": "https://news.ycombinator.com/submit",
+      "title": "Show HN: RAG Guardian – pytest for RAG systems",
+      "tips": "Post rano US time (9-11am EST). Odpowiadaj na komentarze szybko.",
+      "priority": "🔥 HIGH"
+    },
+    {
+      "name": "Product Hunt",
+      "url": "https://www.producthunt.com/posts/new",
+      "title": "RAG Guardian - Test your RAG before production",
+      "tips": "Launch w środę/czwartek. Przygotuj tagline, screenshots, demo video.",
+      "priority": "🔥 HIGH"
+    },
+    {
+      "name": "Indie Hackers",
+      "url": "https://www.indiehackers.com/post/new",
+      "title": "Built RAG Guardian - testing framework for RAG systems",
+      "tips": "Share journey, numbers, lessons learned. Community lubi personal stories.",
+      "priority": "⭐ MEDIUM"
+    },
+    {
+      "name": "Lobsters",
+      "url": "https://lobste.rs/",
+      "title": "RAG Guardian: Testing framework for RAG systems",
+      "tips": "Tag: 'python', 'ai'. Technical audience, appreciate quality code.",
+      "priority": "⭐ MEDIUM"
+    }
+  ],
+  "Reddit": [
+    {
+      "name": "r/MachineLearning",
+      "url": "https://reddit.com/r/MachineLearning/submit",
+      "title": "[P] RAG Guardian - Testing framework for RAG systems",
+      "tips": "Tag [P] for Project. Technical details, benchmarks. Monday-Wednesday best.",
+      "priority": "🔥 HIGH"
+    },
+    {
+      "name": "r/Python",
+      "url": "https://reddit.com/r/Python/submit",
+      "title": "RAG Guardian - Testing framework for RAG systems",
+      "tips": "Show code examples, API design. Community values Pythonic code.",
+      "priority": "🔥 HIGH"
+    },
+    {
+      "name": "r/LangChain",
+      "url": "https://reddit.com/r/LangChain/submit",
+      "title": "Testing RAG quality with LangChain - automated framework",
+      "tips": "Focus na LangChain integration. Show real examples.",
+      "priority": "⭐ MEDIUM"
+    },
+    {
+      "name": "r/LocalLLaMA",
+      "url": "https://reddit.com/r/LocalLLaMA/submit",
+      "title": "RAG Guardian - test your local RAG systems",
+      "tips": "Mention że działa z local models, nie tylko API.",
+      "priority": "⭐ MEDIUM"
+    },
+    {
+      "name": "r/opensource",
+      "url": "https://reddit.com/r/opensource/submit",
+      "title": "RAG Guardian - open-source RAG testing framework",
+      "tips": "Highlight MIT license, contribution guidelines, community aspect.",
+      "priority": "⚡ LOW"
+    }
+  ],
+  "Dev Communities": [
+    {
+      "name": "Dev.to",
+      "url": "https://dev.to/new",
+      "title": "Stop Guessing if Your RAG Works - Test It Like Code",
+      "tips": "Long-form article. Tutorial style. Use code examples.",
+      "priority": "🔥 HIGH"
+    },
+    {
+      "name": "Hashnode",
+      "url": "https://hashnode.com/create/story",
+      "title": "Building RAG Guardian: Testing RAG Systems Automatically",
+      "tips": "Technical deep-dive. Behind the scenes, architecture.",
+      "priority": "⭐ MEDIUM"
+    },
+    {
+      "name": "Medium",
+      "url": "https://medium.com/new-story",
+      "title": "How to Test RAG Systems Before Production",
+      "tips": "Cross-post from Dev.to. Tag: Python, AI, Testing.",
+      "priority": "⚡ LOW"
+    }
+  ],
+  "AI/ML Communities": [
+    {
+      "name": "Papers with Code",
+      "url": "https://paperswithcode.com/",
+      "title": "Add to RAG evaluation tools",
+      "tips": "Jeśli masz benchmarks/metrics comparison.",
+      "priority": "⚡ LOW"
+    },
+    {
+      "name": "Hugging Face Hub",
+      "url": "https://huggingface.co/new-space",
+      "title": "RAG Guardian Demo Space",
+      "tips": "Stwórz interactive demo. Streamlit app showing evaluation.",
+      "priority": "⭐ MEDIUM"
+    },
+    {
+      "name": "AI Discord servers",
+      "url": "LangChain, LlamaIndex official Discords",
+      "title": "Share in #show-and-tell channels",
+      "tips": "Don't spam. Share value, help others.",
+      "priority": "⭐ MEDIUM"
+    }
+  ],
+  "Twitter/X": [
+    {
+      "name": "Tweet thread",
+      "url": "https://twitter.com/compose/tweet",
+      "title": "Use generated thread from this script",
+      "tips": "Post 10-11am US Eastern. Tag @langchainai @llama_index. Use hashtags.",
+      "priority": "🔥 HIGH"
+    },
+    {
+      "name": "Tag influencers",
+      "url": "In replies",
+      "title": "@swyx @GergelyOrosz @llama_index @LangChainAI",
+      "tips": "Don't spam. Genuinely ask for feedback if relevant.",
+      "priority": "⚡ LOW"
+    }
+  ],
+  "Newsletters": [
+    {
+      "name": "TLDR AI",
+      "url": "https://tldr.tech/ai/submit",
+      "title": "Submit via form",
+      "tips": "Newsletter z 500k+ subscribers. Worth a shot.",
+      "priority": "⭐ MEDIUM"
+    },
+    {
+      "name": "Python Weekly",
+      "url": "https://www.pythonweekly.com/submit",
+      "title": "Submit your project",
+      "tips": "Quality threshold high. Highlight testing aspect.",
+      "priority": "⭐ MEDIUM"
+    }
+  ]
+}

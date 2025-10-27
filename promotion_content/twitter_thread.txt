@@ -1,0 +1,92 @@
+=== TWEET 1/7 ===
+🚀 RAG Guardian v1.0 - pytest dla systemów RAG
+
+Wdrażasz RAG do produkcji i zastanawiasz się "czy to czasem nie halucynuje?"
+
+Teraz możesz to PRZETESTOWAĆ zanim klient zobaczy błąd.
+
+Thread 🧵👇
+
+Characters: 191
+============================================================
+
+=== TWEET 2/7 ===
+Problem który znam z autopsji:
+
+❌ 2h ręcznego sprawdzania przed każdym release
+❌ "Coś nie gra" ale nie wiesz co
+❌ Klient zgłasza bug na prodzie
+
+Brzmi znajomo?
+
+Characters: 159
+============================================================
+
+=== TWEET 3/7 ===
+Rozwiązanie → automatyczne testy RAG:
+
+✅ 4 metryki (faithfulness, groundedness, relevancy, correctness)
+✅ 5 minut zamiast 2h
+✅ Raport HTML do pokazania szefowi
+✅ CI/CD - blokuje merge jak testy failują
+
+https://github.com/gacabartosz/rag-guardian
+
+Characters: 246
+============================================================
+
+=== TWEET 4/7 ===
+Jak to działa? 3 komendy:
+
+```bash
+pip install rag-guardian
+rag-guardian init
+rag-guardian test --dataset tests.jsonl
+```
+
+Dostajesz DOKŁADNIE co się zepsuło.
+Nie "coś nie gra" - konkretne "context_relevancy: 0.68 < 0.75" ⬅️ FIX THIS
+
+Characters: 233
+============================================================
+
+=== TWEET 5/7 ===
+Działa z:
+• LangChain (3 linijki kodu)
+• LlamaIndex (3 adaptery)
+• Custom RAG (dziedzicz CustomRAGAdapter)
+• HTTP API (adapter z auto-retry)
+
+Nie musisz zmieniać swojego kodu.
+Opakowujesz w adapter, uruchamiasz testy. Done.
+
+Characters: 223
+============================================================
+
+=== TWEET 6/7 ===
+Stats które pokazują że to działa:
+
+• 119 testów passing
+• 68% code coverage
+• Battle-tested w prawdziwych projektach
+• Open-source, MIT, free forever
+
+https://github.com/gacabartosz/rag-guardian
+
+Characters: 195
+============================================================
+
+=== TWEET 7/7 ===
+Jeśli budujesz systemy RAG i masz dość zgadywania:
+
+⭐ Star na GitHubie jeśli to ma sens
+📦 pip install rag-guardian
+💬 Issues/PRs welcome
+
+Real-world ROI: 1 bug złapany przed prod = kilka godzin saved.
+
+https://github.com/gacabartosz/rag-guardian
+
+Characters: 244
+============================================================
+
