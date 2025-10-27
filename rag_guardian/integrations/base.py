@@ -1,7 +1,6 @@
 """Base adapter for RAG systems."""
 
 from abc import ABC, abstractmethod
-from typing import List
 
 from rag_guardian.core.types import RAGOutput
 
@@ -15,7 +14,7 @@ class BaseRAGAdapter(ABC):
     """
 
     @abstractmethod
-    def retrieve(self, query: str) -> List[str]:
+    def retrieve(self, query: str) -> list[str]:
         """
         Retrieve relevant contexts for a query.
 
@@ -28,7 +27,7 @@ class BaseRAGAdapter(ABC):
         pass
 
     @abstractmethod
-    def generate(self, query: str, contexts: List[str]) -> str:
+    def generate(self, query: str, contexts: list[str]) -> str:
         """
         Generate an answer given a query and contexts.
 

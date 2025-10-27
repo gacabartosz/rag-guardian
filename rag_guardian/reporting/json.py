@@ -3,7 +3,7 @@
 import json
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 from rag_guardian.core.types import EvaluationResult, TestCaseResult
 
@@ -37,7 +37,7 @@ class JSONReporter:
             json.dump(data, f, indent=2, ensure_ascii=False)
 
     @staticmethod
-    def load(input_path: str) -> Dict[str, Any]:
+    def load(input_path: str) -> dict[str, Any]:
         """
         Load evaluation result from JSON file.
 
@@ -47,11 +47,11 @@ class JSONReporter:
         Returns:
             Dictionary with evaluation data
         """
-        with open(input_path, "r", encoding="utf-8") as f:
+        with open(input_path, encoding="utf-8") as f:
             return json.load(f)
 
     @staticmethod
-    def _to_dict(result: EvaluationResult) -> Dict[str, Any]:
+    def _to_dict(result: EvaluationResult) -> dict[str, Any]:
         """Convert EvaluationResult to dictionary."""
         return {
             "summary": result.summary,
@@ -61,13 +61,12 @@ class JSONReporter:
             "failed_tests": result.failed_tests,
             "pass_rate": result.pass_rate,
             "test_results": [
-                JSONReporter._test_case_result_to_dict(tcr)
-                for tcr in result.test_case_results
+                JSONReporter._test_case_result_to_dict(tcr) for tcr in result.test_case_results
             ],
         }
 
     @staticmethod
-    def _test_case_result_to_dict(result: TestCaseResult) -> Dict[str, Any]:
+    def _test_case_result_to_dict(result: TestCaseResult) -> dict[str, Any]:
         """Convert TestCaseResult to dictionary."""
         return {
             "question": result.test_case.question,
@@ -111,7 +110,6 @@ class JSONReporter:
         print("METRICS SUMMARY")
         print("-" * 60)
 
-        metrics_data = []
         if result.test_case_results:
             # Get all metric names
             metric_names = result.test_case_results[0].metric_scores.keys()

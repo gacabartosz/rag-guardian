@@ -1,7 +1,6 @@
 """RAG executor with instrumentation and error handling."""
 
 import time
-from typing import Optional
 
 from rag_guardian.core.types import RAGOutput
 from rag_guardian.integrations.base import BaseRAGAdapter
@@ -23,7 +22,7 @@ class RAGExecutor:
     def __init__(
         self,
         adapter: BaseRAGAdapter,
-        timeout: Optional[float] = None,
+        timeout: float | None = None,
     ):
         """
         Initialize RAG executor.

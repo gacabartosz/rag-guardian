@@ -2,13 +2,11 @@
 
 import json
 from pathlib import Path
-from typing import Dict, List, Optional, Union
 
-from rag_guardian.core.config import Config, MetricConfig
+from rag_guardian.core.config import Config
 from rag_guardian.core.types import (
     EvaluationResult,
     MetricScore,
-    RAGOutput,
     TestCase,
     TestCaseResult,
 )
@@ -50,9 +48,9 @@ class EvaluationPipeline:
         self.config = config
         self.metrics = self._initialize_metrics()
 
-    def _initialize_metrics(self) -> Dict[str, BaseMetric]:
+    def _initialize_metrics(self) -> dict[str, BaseMetric]:
         """Initialize metrics based on config."""
-        metrics = {}
+        metrics: dict[str, BaseMetric] = {}
 
         # Faithfulness
         if self.config.metrics.faithfulness.enabled:
@@ -84,7 +82,7 @@ class EvaluationPipeline:
 
         return metrics
 
-    def load_test_cases(self, dataset_path: str) -> List[TestCase]:
+    def load_test_cases(self, dataset_path: str) -> list[TestCase]:
         """
         Load test cases from JSONL file.
 
@@ -104,7 +102,7 @@ class EvaluationPipeline:
         if not path.exists():
             raise FileNotFoundError(f"Dataset not found: {dataset_path}")
 
-        with open(path, "r", encoding="utf-8") as f:
+        with open(path, encoding="utf-8") as f:
             for line_num, line in enumerate(f, start=1):
                 line = line.strip()
                 if not line:
@@ -121,9 +119,7 @@ class EvaluationPipeline:
                     )
                     test_cases.append(test_case)
                 except (json.JSONDecodeError, KeyError) as e:
-                    raise ValueError(
-                        f"Invalid test case at line {line_num}: {e}"
-                    ) from e
+                    raise ValueError(f"Invalid test case at line {line_num}: {e}") from e
 
         return test_cases
 
@@ -141,8 +137,8 @@ class EvaluationPipeline:
         rag_output = self.rag_adapter.execute(test_case.question)
 
         # Compute all metrics
-        metric_scores: Dict[str, MetricScore] = {}
-        failure_reasons: List[str] = []
+        metric_scores: dict[str, MetricScore] = {}
+        failure_reasons: list[str] = []
 
         for metric_name, metric in self.metrics.items():
             score = metric.evaluate(test_case, rag_output)
@@ -165,7 +161,7 @@ class EvaluationPipeline:
             failure_reasons=failure_reasons,
         )
 
-    def evaluate_dataset(self, dataset_path: Union[str, List[TestCase]]) -> EvaluationResult:
+    def evaluate_dataset(self, dataset_path: str | list[TestCase]) -> EvaluationResult:
         """
         Evaluate entire dataset.
 
@@ -186,7 +182,7 @@ class EvaluationPipeline:
             raise ValueError(f"No test cases found in {source}")
 
         # Evaluate each test case
-        results: List[TestCaseResult] = []
+        results: list[TestCaseResult] = []
         for test_case in test_cases:
             try:
                 result = self.evaluate_test_case(test_case)
@@ -210,7 +206,7 @@ class EvaluationPipeline:
             summary=summary,
         )
 
-    def _calculate_summary(self, results: List[TestCaseResult]) -> Dict[str, float]:
+    def _calculate_summary(self, results: list[TestCaseResult]) -> dict[str, float]:
         """Calculate summary statistics across all results."""
         if not results:
             return {}
@@ -244,7 +240,7 @@ class Evaluator:
     Convenience wrapper around EvaluationPipeline.
     """
 
-    def __init__(self, rag_adapter: BaseRAGAdapter, config: Optional[Config] = None):
+    def __init__(self, rag_adapter: BaseRAGAdapter, config: Config | None = None):
         """
         Initialize evaluator.
 
@@ -256,9 +252,7 @@ class Evaluator:
         self.pipeline = EvaluationPipeline(rag_adapter, self.config)
 
     @classmethod
-    def from_config(
-        cls, config_path: str, rag_adapter: BaseRAGAdapter
-    ) -> "Evaluator":
+    def from_config(cls, config_path: str, rag_adapter: BaseRAGAdapter) -> "Evaluator":
         """
         Create evaluator from config file.
 
@@ -272,7 +266,7 @@ class Evaluator:
         config = Config.from_yaml(config_path)
         return cls(rag_adapter, config)
 
-    def evaluate_dataset(self, dataset_path: Union[str, List[TestCase]]) -> EvaluationResult:
+    def evaluate_dataset(self, dataset_path: str | list[TestCase]) -> EvaluationResult:
         """
         Evaluate a dataset.
 

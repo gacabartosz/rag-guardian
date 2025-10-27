@@ -3,11 +3,11 @@
 import pytest
 
 from rag_guardian.core.types import (
-    TestCase,
-    RAGOutput,
-    MetricScore,
-    TestCaseResult,
     EvaluationResult,
+    MetricScore,
+    RAGOutput,
+    TestCase,
+    TestCaseResult,
 )
 
 
@@ -148,19 +148,11 @@ class TestEvaluationResult:
         test_case1 = TestCase(question="Question 1")
         test_case2 = TestCase(question="Question 2")
 
-        rag_output1 = RAGOutput(
-            question="Question 1", answer="Answer 1", contexts=["Context 1"]
-        )
-        rag_output2 = RAGOutput(
-            question="Question 2", answer="Answer 2", contexts=["Context 2"]
-        )
+        rag_output1 = RAGOutput(question="Question 1", answer="Answer 1", contexts=["Context 1"])
+        rag_output2 = RAGOutput(question="Question 2", answer="Answer 2", contexts=["Context 2"])
 
-        score1 = MetricScore(
-            metric_name="faithfulness", value=0.92, passed=True, threshold=0.85
-        )
-        score2 = MetricScore(
-            metric_name="faithfulness", value=0.70, passed=False, threshold=0.85
-        )
+        score1 = MetricScore(metric_name="faithfulness", value=0.92, passed=True, threshold=0.85)
+        score2 = MetricScore(metric_name="faithfulness", value=0.70, passed=False, threshold=0.85)
 
         result1 = TestCaseResult(
             test_case=test_case1,

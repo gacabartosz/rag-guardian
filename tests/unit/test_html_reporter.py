@@ -80,7 +80,7 @@ class TestHTMLReporter:
             assert Path(output_path).exists()
 
             # Read and verify content
-            with open(output_path, "r") as f:
+            with open(output_path) as f:
                 html = f.read()
 
             # Check for essential HTML structure
@@ -111,7 +111,7 @@ class TestHTMLReporter:
         try:
             HTMLReporter.generate(results, output_path, title="Custom Test Report")
 
-            with open(output_path, "r") as f:
+            with open(output_path) as f:
                 html = f.read()
 
             assert "Custom Test Report" in html
@@ -129,7 +129,7 @@ class TestHTMLReporter:
         try:
             HTMLReporter.generate(results, output_path)
 
-            with open(output_path, "r") as f:
+            with open(output_path) as f:
                 html = f.read()
 
             # Check for failure indicators
@@ -149,7 +149,7 @@ class TestHTMLReporter:
         try:
             HTMLReporter.generate(results, output_path)
 
-            with open(output_path, "r") as f:
+            with open(output_path) as f:
                 html = f.read()
 
             # Check for stat cards
@@ -173,7 +173,7 @@ class TestHTMLReporter:
         try:
             HTMLReporter.generate(results, output_path)
 
-            with open(output_path, "r") as f:
+            with open(output_path) as f:
                 html = f.read()
 
             # Check for table structure
@@ -199,7 +199,7 @@ class TestHTMLReporter:
         try:
             HTMLReporter.generate(results, output_path)
 
-            with open(output_path, "r") as f:
+            with open(output_path) as f:
                 html = f.read()
 
             # Check for style tag
@@ -223,7 +223,7 @@ class TestHTMLReporter:
         try:
             HTMLReporter.generate(results, output_path)
 
-            with open(output_path, "r") as f:
+            with open(output_path) as f:
                 html = f.read()
 
             # Check for script tag
@@ -280,7 +280,7 @@ class TestHTMLReporter:
         try:
             HTMLReporter.generate(results, output_path)
 
-            with open(output_path, "r") as f:
+            with open(output_path) as f:
                 html = f.read()
 
             # Should show all test cases
@@ -301,7 +301,7 @@ class TestHTMLReporter:
         try:
             HTMLReporter.generate(results, output_path)
 
-            with open(output_path, "r") as f:
+            with open(output_path) as f:
                 html = f.read()
 
             # Should have failures section
@@ -321,7 +321,7 @@ class TestHTMLReporter:
         try:
             HTMLReporter.generate(results, output_path)
 
-            with open(output_path, "r") as f:
+            with open(output_path) as f:
                 html = f.read()
 
             # Check for progress bar classes
@@ -340,7 +340,7 @@ class TestHTMLReporter:
         try:
             HTMLReporter.generate(results, output_path)
 
-            with open(output_path, "r") as f:
+            with open(output_path) as f:
                 html = f.read()
 
             # Basic HTML validation

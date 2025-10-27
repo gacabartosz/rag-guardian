@@ -35,7 +35,7 @@ class TestDataLoader:
         """Test loading JSONL with empty lines."""
         with tempfile.NamedTemporaryFile(mode="w", suffix=".jsonl", delete=False) as f:
             f.write('{"question": "Q1"}\n')
-            f.write('\n')  # Empty line
+            f.write("\n")  # Empty line
             f.write('{"question": "Q2"}\n')
             path = f.name
 
@@ -90,7 +90,7 @@ class TestDataLoader:
         """Test error on invalid JSON."""
         with tempfile.NamedTemporaryFile(mode="w", suffix=".jsonl", delete=False) as f:
             f.write('{"question": "Q1"}\n')
-            f.write('not valid json\n')
+            f.write("not valid json\n")
             path = f.name
 
         try:

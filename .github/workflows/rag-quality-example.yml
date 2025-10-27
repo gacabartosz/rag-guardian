@@ -33,26 +33,13 @@ jobs:
         # 1. Start your RAG server
         # 2. Run rag-guardian test with your test cases
 
-        echo "✅ This is an example workflow"
+        echo "✅ This is an example workflow demonstrating RAG Guardian integration"
+        echo ""
         echo "In production, you would run:"
         echo "  poetry run rag-guardian test --dataset tests/example_cases.jsonl"
         echo "  poetry run rag-guardian test --rag-endpoint http://localhost:8000"
-
-    - name: Upload test results
-      if: always()
-      uses: actions/upload-artifact@v3
-      with:
-        name: rag-test-results
-        path: results/
-
-    - name: Comment PR with results
-      if: github.event_name == 'pull_request'
-      uses: actions/github-script@v7
-      with:
-        script: |
-          github.rest.issues.createComment({
-            issue_number: context.issue.number,
-            owner: context.repo.owner,
-            repo: context.repo.name,
-            body: '## RAG Quality Test Results\n\n✅ All RAG quality metrics passed!\n\nSee artifacts for detailed results.'
-          })
+        echo ""
+        echo "This workflow is provided as a reference. To use RAG Guardian:"
+        echo "1. Create test cases in JSONL format"
+        echo "2. Configure thresholds in .rag-guardian.yml"
+        echo "3. Run tests in your CI/CD pipeline"

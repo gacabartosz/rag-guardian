@@ -1,6 +1,6 @@
 """LlamaIndex integration for RAG Guardian."""
 
-from typing import Any, List, Optional
+from typing import Any
 
 from rag_guardian.core.types import RAGOutput
 from rag_guardian.integrations.base import BaseRAGAdapter
@@ -23,7 +23,7 @@ class LlamaIndexAdapter(BaseRAGAdapter):
     def __init__(
         self,
         query_engine: Any,
-        retriever: Optional[Any] = None,
+        retriever: Any | None = None,
     ):
         """
         Initialize LlamaIndex adapter.
@@ -49,7 +49,7 @@ class LlamaIndexAdapter(BaseRAGAdapter):
         self.query_engine = query_engine
         self.retriever = retriever or self._extract_retriever()
 
-    def _extract_retriever(self) -> Optional[Any]:
+    def _extract_retriever(self) -> Any | None:
         """Try to extract retriever from query engine."""
         # Try common attributes
         for attr in ["retriever", "_retriever"]:
@@ -67,7 +67,7 @@ class LlamaIndexAdapter(BaseRAGAdapter):
 
         return None
 
-    def retrieve(self, query: str) -> List[str]:
+    def retrieve(self, query: str) -> list[str]:
         """
         Retrieve contexts for a query.
 
@@ -113,7 +113,7 @@ class LlamaIndexAdapter(BaseRAGAdapter):
             logger.warning(f"Could not retrieve contexts: {e}")
             return []
 
-    def generate(self, query: str, contexts: List[str]) -> str:
+    def generate(self, query: str, contexts: list[str]) -> str:
         """
         Generate answer using the query engine.
 
@@ -186,7 +186,7 @@ class LlamaIndexAdapter(BaseRAGAdapter):
 
         return str(response)
 
-    def _extract_contexts(self, response: Any) -> List[str]:
+    def _extract_contexts(self, response: Any) -> list[str]:
         """Extract source contexts from response."""
         contexts = []
 
@@ -282,7 +282,7 @@ class LlamaIndexChatEngineAdapter(BaseRAGAdapter):
         """
         self.chat_engine = chat_engine
 
-    def retrieve(self, query: str) -> List[str]:
+    def retrieve(self, query: str) -> list[str]:
         """
         Retrieve contexts (not directly available in chat engines).
 
@@ -290,7 +290,7 @@ class LlamaIndexChatEngineAdapter(BaseRAGAdapter):
         """
         return []
 
-    def generate(self, query: str, contexts: List[str]) -> str:
+    def generate(self, query: str, contexts: list[str]) -> str:
         """Generate answer using chat engine."""
         try:
             response = self.chat_engine.chat(query)

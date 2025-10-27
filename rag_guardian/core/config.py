@@ -3,10 +3,10 @@
 import os
 import re
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any
 
 import yaml
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field
 
 
 class MetricConfig(BaseModel):
@@ -21,9 +21,9 @@ class RAGSystemConfig(BaseModel):
     """Configuration for RAG system connection."""
 
     type: str = "custom"  # "langchain", "llamaindex", "custom"
-    endpoint: Optional[str] = None
+    endpoint: str | None = None
     timeout: int = 30
-    headers: Dict[str, str] = Field(default_factory=dict)
+    headers: dict[str, str] = Field(default_factory=dict)
 
 
 class MetricsConfig(BaseModel):
@@ -57,7 +57,7 @@ class Config(BaseModel):
         if not yaml_path.exists():
             raise FileNotFoundError(f"Config file not found: {path}")
 
-        with open(yaml_path, "r") as f:
+        with open(yaml_path) as f:
             raw_data = yaml.safe_load(f)
 
         # Substitute environment variables
@@ -83,10 +83,10 @@ class Config(BaseModel):
             return data
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> "Config":
+    def from_dict(cls, data: dict[str, Any]) -> "Config":
         """Create config from dictionary."""
         return cls(**data)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert config to dictionary."""
         return self.model_dump()

@@ -1,8 +1,8 @@
 """Core types for RAG Guardian."""
 
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional
 from enum import Enum
+from typing import Any
 
 
 class MetricType(str, Enum):
@@ -44,14 +44,14 @@ class TestCase:
     __test__ = False  # Tell pytest this is not a test class
 
     question: str
-    expected_answer: Optional[str] = None
-    expected_contexts: Optional[List[str]] = None
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    expected_answer: str | None = None
+    expected_contexts: list[str] | None = None
+    metadata: dict[str, Any] = field(default_factory=dict)
 
     # Optional fields
-    acceptable_answers: Optional[List[str]] = None
-    required_contexts: Optional[List[str]] = None
-    forbidden_contexts: Optional[List[str]] = None
+    acceptable_answers: list[str] | None = None
+    required_contexts: list[str] | None = None
+    forbidden_contexts: list[str] | None = None
 
     def __post_init__(self):
         """Validate test case."""
@@ -64,14 +64,14 @@ class RAGOutput:
     """Output from a RAG system execution."""
 
     answer: str
-    contexts: List[str]
+    contexts: list[str]
     question: str
 
     # Optional diagnostic info
-    latency_ms: Optional[float] = None
-    tokens_used: Optional[int] = None
-    retrieval_latency_ms: Optional[float] = None
-    generation_latency_ms: Optional[float] = None
+    latency_ms: float | None = None
+    tokens_used: int | None = None
+    retrieval_latency_ms: float | None = None
+    generation_latency_ms: float | None = None
 
     def __post_init__(self):
         """Validate RAG output."""
@@ -88,8 +88,8 @@ class MetricScore:
     metric_name: str
     value: float
     passed: bool
-    threshold: Optional[float] = None
-    details: Dict[str, Any] = field(default_factory=dict)
+    threshold: float | None = None
+    details: dict[str, Any] = field(default_factory=dict)
 
     def __post_init__(self):
         """Validate metric score."""
@@ -105,18 +105,18 @@ class TestCaseResult:
 
     test_case: TestCase
     rag_output: RAGOutput
-    metric_scores: Dict[str, MetricScore]
+    metric_scores: dict[str, MetricScore]
     passed: bool
-    failure_reasons: List[str] = field(default_factory=list)
+    failure_reasons: list[str] = field(default_factory=list)
 
 
 @dataclass
 class EvaluationResult:
     """Complete evaluation results for a dataset."""
 
-    test_case_results: List[TestCaseResult]
+    test_case_results: list[TestCaseResult]
     passed: bool
-    summary: Dict[str, float] = field(default_factory=dict)
+    summary: dict[str, float] = field(default_factory=dict)
 
     @property
     def total_tests(self) -> int:
@@ -170,6 +170,6 @@ class EvaluationResult:
         return self.get_avg_metric("answer_correctness")
 
     @property
-    def failures(self) -> List[TestCaseResult]:
+    def failures(self) -> list[TestCaseResult]:
         """Get all failed test cases."""
         return [r for r in self.test_case_results if not r.passed]

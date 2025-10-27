@@ -1,6 +1,6 @@
 """Context relevancy metric implementation."""
 
-from typing import Dict, Any, List
+from typing import Any
 
 from rag_guardian.core.types import RAGOutput, TestCase
 from rag_guardian.metrics.base import BaseMetric
@@ -26,8 +26,7 @@ class ContextRelevancyMetric(BaseMetric):
 
         # Compute relevancy for each context
         relevancy_scores = [
-            self._compute_relevancy(test_case.question, context)
-            for context in rag_output.contexts
+            self._compute_relevancy(test_case.question, context) for context in rag_output.contexts
         ]
 
         # Return average
@@ -44,9 +43,7 @@ class ContextRelevancyMetric(BaseMetric):
         context_lower = context.lower()
 
         # Extract meaningful words from question
-        question_words = set(
-            w for w in question_lower.split() if len(w) > 3 and w.isalnum()
-        )
+        question_words = {w for w in question_lower.split() if len(w) > 3 and w.isalnum()}
 
         if not question_words:
             return 0.5  # Neutral score if no meaningful words
@@ -65,7 +62,7 @@ class ContextRelevancyMetric(BaseMetric):
 
     def _get_details(
         self, test_case: TestCase, rag_output: RAGOutput, score: float
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Get details about context relevancy."""
         context_scores = []
 
@@ -75,9 +72,7 @@ class ContextRelevancyMetric(BaseMetric):
                 {
                     "context_index": i,
                     "relevancy_score": relevancy,
-                    "context_preview": context[:100] + "..."
-                    if len(context) > 100
-                    else context,
+                    "context_preview": context[:100] + "..." if len(context) > 100 else context,
                 }
             )
 

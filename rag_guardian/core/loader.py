@@ -2,7 +2,6 @@
 
 import json
 from pathlib import Path
-from typing import List
 
 from rag_guardian.core.types import TestCase
 from rag_guardian.exceptions import DatasetError
@@ -16,7 +15,7 @@ class DataLoader:
     """
 
     @staticmethod
-    def load_jsonl(file_path: str) -> List[TestCase]:
+    def load_jsonl(file_path: str) -> list[TestCase]:
         """
         Load test cases from JSONL file.
 
@@ -40,7 +39,7 @@ class DataLoader:
         test_cases = []
 
         try:
-            with open(path, "r", encoding="utf-8") as f:
+            with open(path, encoding="utf-8") as f:
                 for line_num, line in enumerate(f, start=1):
                     line = line.strip()
 
@@ -52,9 +51,7 @@ class DataLoader:
                         test_case = DataLoader._parse_test_case(data, line_num)
                         test_cases.append(test_case)
                     except json.JSONDecodeError as e:
-                        raise DatasetError(
-                            f"Invalid JSON on line {line_num}: {str(e)}"
-                        ) from e
+                        raise DatasetError(f"Invalid JSON on line {line_num}: {str(e)}") from e
                     except Exception as e:
                         raise DatasetError(
                             f"Error parsing test case on line {line_num}: {str(e)}"
@@ -98,7 +95,7 @@ class DataLoader:
         )
 
     @staticmethod
-    def save_jsonl(test_cases: List[TestCase], file_path: str) -> None:
+    def save_jsonl(test_cases: list[TestCase], file_path: str) -> None:
         """
         Save test cases to JSONL file.
 

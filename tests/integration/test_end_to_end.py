@@ -2,7 +2,6 @@
 
 import tempfile
 from pathlib import Path
-from typing import List
 
 import pytest
 
@@ -16,14 +15,14 @@ from rag_guardian.reporting.json import JSONReporter
 class MockRAG(BaseRAGAdapter):
     """Mock RAG system for testing."""
 
-    def retrieve(self, query: str) -> List[str]:
+    def retrieve(self, query: str) -> list[str]:
         """Return mock contexts."""
         return [
             f"Context about {query}",
             "Additional relevant information",
         ]
 
-    def generate(self, query: str, contexts: List[str]) -> str:
+    def generate(self, query: str, contexts: list[str]) -> str:
         """Return mock answer."""
         return f"Answer based on {len(contexts)} contexts: {query}"
 
@@ -38,8 +37,12 @@ def mock_rag():
 def test_dataset():
     """Create temporary test dataset."""
     with tempfile.NamedTemporaryFile(mode="w", suffix=".jsonl", delete=False) as f:
-        f.write('{"question": "What is RAG?", "expected_answer": "Retrieval-Augmented Generation"}\n')
-        f.write('{"question": "How does it work?", "expected_answer": "Combines retrieval and generation"}\n')
+        f.write(
+            '{"question": "What is RAG?", "expected_answer": "Retrieval-Augmented Generation"}\n'
+        )
+        f.write(
+            '{"question": "How does it work?", "expected_answer": "Combines retrieval and generation"}\n'
+        )
         return f.name
 
 

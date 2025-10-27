@@ -1,6 +1,6 @@
 """Answer correctness metric implementation."""
 
-from typing import Dict, Any
+from typing import Any
 
 from rag_guardian.core.types import RAGOutput, TestCase
 from rag_guardian.metrics.base import BaseMetric
@@ -66,9 +66,7 @@ class AnswerCorrectnessMetric(BaseMetric):
         jaccard = len(intersection) / len(union)
 
         # Length similarity (completeness check)
-        len_ratio = min(len(generated), len(expected)) / max(
-            len(generated), len(expected)
-        )
+        len_ratio = min(len(generated), len(expected)) / max(len(generated), len(expected))
 
         # Combined score (favor jaccard more)
         score = 0.7 * jaccard + 0.3 * len_ratio
@@ -77,7 +75,7 @@ class AnswerCorrectnessMetric(BaseMetric):
 
     def _get_details(
         self, test_case: TestCase, rag_output: RAGOutput, score: float
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Get details about the comparison."""
         return {
             "score": score,

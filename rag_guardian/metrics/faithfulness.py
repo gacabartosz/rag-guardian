@@ -1,7 +1,7 @@
 """Faithfulness metric implementation."""
 
 import re
-from typing import Dict, Any, List
+from typing import Any
 
 from rag_guardian.core.types import RAGOutput, TestCase
 from rag_guardian.metrics.base import BaseMetric
@@ -38,7 +38,7 @@ class FaithfulnessMetric(BaseMetric):
 
         return supported_claims / len(claims)
 
-    def _extract_claims(self, answer: str) -> List[str]:
+    def _extract_claims(self, answer: str) -> list[str]:
         """
         Extract atomic claims from answer.
 
@@ -53,7 +53,7 @@ class FaithfulnessMetric(BaseMetric):
 
         return claims
 
-    def _is_claim_supported(self, claim: str, contexts: List[str]) -> bool:
+    def _is_claim_supported(self, claim: str, contexts: list[str]) -> bool:
         """
         Check if a claim is supported by any context.
 
@@ -79,7 +79,7 @@ class FaithfulnessMetric(BaseMetric):
 
     def _get_details(
         self, test_case: TestCase, rag_output: RAGOutput, score: float
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Get details about faithfulness check."""
         claims = self._extract_claims(rag_output.answer)
 

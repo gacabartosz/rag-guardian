@@ -1,7 +1,7 @@
 """Base class for all metrics."""
 
 from abc import ABC, abstractmethod
-from typing import Dict, Any, Optional
+from typing import Any
 
 from rag_guardian.core.types import MetricScore, RAGOutput, TestCase
 
@@ -71,7 +71,7 @@ class BaseMetric(ABC):
         test_case: TestCase,
         rag_output: RAGOutput,
         score: float,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Get additional details about the metric computation.
 

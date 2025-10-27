@@ -1,6 +1,6 @@
 """Groundedness metric implementation."""
 
-from typing import Dict, Any, List, Set
+from typing import Any
 
 from rag_guardian.core.types import RAGOutput, TestCase
 from rag_guardian.metrics.base import BaseMetric
@@ -34,7 +34,7 @@ class GroundednessMetric(BaseMetric):
 
         return used_terms / len(context_terms)
 
-    def _extract_key_terms(self, contexts: List[str]) -> Set[str]:
+    def _extract_key_terms(self, contexts: list[str]) -> set[str]:
         """
         Extract key terms from contexts.
 
@@ -96,7 +96,7 @@ class GroundednessMetric(BaseMetric):
 
     def _get_details(
         self, test_case: TestCase, rag_output: RAGOutput, score: float
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Get details about groundedness check."""
         context_terms = self._extract_key_terms(rag_output.contexts)
         answer_lower = rag_output.answer.lower()

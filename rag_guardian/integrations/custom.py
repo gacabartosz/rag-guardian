@@ -1,7 +1,6 @@
 """Custom HTTP adapter for RAG systems."""
 
 import time
-from typing import Any, Dict, List, Optional
 
 import httpx
 
@@ -23,7 +22,7 @@ class CustomHTTPAdapter(BaseRAGAdapter):
     def __init__(
         self,
         endpoint: str,
-        headers: Optional[Dict[str, str]] = None,
+        headers: dict[str, str] | None = None,
         timeout: int = 30,
         max_retries: int = 3,
     ):
@@ -63,25 +62,19 @@ class CustomHTTPAdapter(BaseRAGAdapter):
 
             except httpx.TimeoutException as e:
                 last_error = e
-                logger.warning(
-                    f"Request timeout (attempt {attempt + 1}/{self.max_retries}): {e}"
-                )
+                logger.warning(f"Request timeout (attempt {attempt + 1}/{self.max_retries}): {e}")
 
             except httpx.ConnectError as e:
                 last_error = e
-                logger.warning(
-                    f"Connection error (attempt {attempt + 1}/{self.max_retries}): {e}"
-                )
+                logger.warning(f"Connection error (attempt {attempt + 1}/{self.max_retries}): {e}")
 
             except httpx.RequestError as e:
                 last_error = e
-                logger.warning(
-                    f"Request error (attempt {attempt + 1}/{self.max_retries}): {e}"
-                )
+                logger.warning(f"Request error (attempt {attempt + 1}/{self.max_retries}): {e}")
 
             # Exponential backoff: 1s, 2s, 4s, ...
             if attempt < self.max_retries - 1:
-                wait_time = 2 ** attempt
+                wait_time = 2**attempt
                 logger.debug(f"Retrying in {wait_time}s...")
                 time.sleep(wait_time)
 
@@ -90,7 +83,7 @@ class CustomHTTPAdapter(BaseRAGAdapter):
             f"Failed after {self.max_retries} attempts. Last error: {last_error}"
         ) from last_error
 
-    def retrieve(self, query: str) -> List[str]:
+    def retrieve(self, query: str) -> list[str]:
         """
         Retrieve contexts via HTTP with retry logic.
 
@@ -135,7 +128,7 @@ class CustomHTTPAdapter(BaseRAGAdapter):
                 f"Unexpected error during retrieval: {type(e).__name__}: {e}"
             ) from e
 
-    def generate(self, query: str, contexts: List[str]) -> str:
+    def generate(self, query: str, contexts: list[str]) -> str:
         """
         Generate answer via HTTP with retry logic.
 
@@ -219,9 +212,7 @@ class CustomHTTPAdapter(BaseRAGAdapter):
         except httpx.HTTPStatusError as e:
             # If 404, try separate endpoints
             if e.response.status_code == 404:
-                logger.info(
-                    f"Combined /rag endpoint not found, falling back to separate endpoints"
-                )
+                logger.info("Combined /rag endpoint not found, falling back to separate endpoints")
                 try:
                     return super().execute(query)
                 except IntegrationError as fallback_error:
@@ -256,7 +247,7 @@ class CustomRAGAdapter(BaseRAGAdapter):
     to integrate your custom RAG system.
     """
 
-    def retrieve(self, query: str) -> List[str]:
+    def retrieve(self, query: str) -> list[str]:
         """
         Override this method with your retrieval logic.
 
@@ -268,7 +259,7 @@ class CustomRAGAdapter(BaseRAGAdapter):
         """
         raise NotImplementedError("Implement retrieve() in your subclass")
 
-    def generate(self, query: str, contexts: List[str]) -> str:
+    def generate(self, query: str, contexts: list[str]) -> str:
         """
         Override this method with your generation logic.
 

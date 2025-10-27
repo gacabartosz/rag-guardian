@@ -1,13 +1,11 @@
 """Unit tests for metrics."""
 
-import pytest
-
-from rag_guardian.core.types import TestCase, RAGOutput
+from rag_guardian.core.types import RAGOutput, TestCase
 from rag_guardian.metrics import (
     AnswerCorrectnessMetric,
+    ContextRelevancyMetric,
     FaithfulnessMetric,
     GroundednessMetric,
-    ContextRelevancyMetric,
 )
 
 

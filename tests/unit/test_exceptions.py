@@ -113,9 +113,7 @@ class TestExceptionUsage:
 
         def compute_metric(value: float):
             if value < 0 or value > 1:
-                raise MetricComputationError(
-                    f"Metric value must be between 0 and 1, got {value}"
-                )
+                raise MetricComputationError(f"Metric value must be between 0 and 1, got {value}")
             return value
 
         with pytest.raises(MetricComputationError, match="between 0 and 1"):

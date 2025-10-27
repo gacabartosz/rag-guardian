@@ -1,6 +1,6 @@
 """LangChain integration for RAG Guardian."""
 
-from typing import Any, List, Optional
+from typing import Any
 
 from rag_guardian.core.types import RAGOutput
 from rag_guardian.integrations.base import BaseRAGAdapter
@@ -21,7 +21,7 @@ class LangChainAdapter(BaseRAGAdapter):
     def __init__(
         self,
         chain: Any,
-        retriever: Optional[Any] = None,
+        retriever: Any | None = None,
     ):
         """
         Initialize LangChain adapter.
@@ -48,7 +48,7 @@ class LangChainAdapter(BaseRAGAdapter):
         self.chain = chain
         self.retriever = retriever or self._extract_retriever_from_chain()
 
-    def _extract_retriever_from_chain(self) -> Optional[Any]:
+    def _extract_retriever_from_chain(self) -> Any | None:
         """Try to extract retriever from chain."""
         # Try common attributes
         for attr in ["retriever", "vectorstore", "docstore"]:
@@ -63,7 +63,7 @@ class LangChainAdapter(BaseRAGAdapter):
 
         return None
 
-    def retrieve(self, query: str) -> List[str]:
+    def retrieve(self, query: str) -> list[str]:
         """
         Retrieve contexts for a query.
 
@@ -85,7 +85,7 @@ class LangChainAdapter(BaseRAGAdapter):
             logger.warning(f"Could not retrieve documents: {e}")
             return []
 
-    def generate(self, query: str, contexts: List[str]) -> str:
+    def generate(self, query: str, contexts: list[str]) -> str:
         """
         Generate answer using the chain.
 
@@ -168,7 +168,7 @@ class LangChainAdapter(BaseRAGAdapter):
 
         return str(result)
 
-    def _extract_contexts(self, result: Any) -> List[str]:
+    def _extract_contexts(self, result: Any) -> list[str]:
         """Extract source documents from chain result."""
         if not isinstance(result, dict):
             return []
@@ -240,6 +240,6 @@ class LangChainRetrievalQAAdapter(LangChainAdapter):
                 contexts=contexts or ["No context available"],
             )
 
-        except Exception as e:
+        except Exception:
             # Fallback to parent implementation
             return super().execute(query)

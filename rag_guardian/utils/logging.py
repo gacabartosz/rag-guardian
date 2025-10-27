@@ -7,8 +7,6 @@ All components should use get_logger(__name__) instead of print() statements.
 import logging
 import os
 import sys
-from typing import Optional
-
 
 # Default log format
 LOG_FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
@@ -19,7 +17,7 @@ _loggers = {}
 _configured = False
 
 
-def get_logger(name: str, level: Optional[int] = None) -> logging.Logger:
+def get_logger(name: str, level: int | None = None) -> logging.Logger:
     """
     Get a configured logger for RAG Guardian.
 
@@ -114,7 +112,7 @@ def disable_logging() -> None:
         logger.setLevel(logging.CRITICAL + 1)
 
 
-def enable_file_logging(file_path: str, level: Optional[int] = None) -> None:
+def enable_file_logging(file_path: str, level: int | None = None) -> None:
     """
     Enable logging to file in addition to console.
 

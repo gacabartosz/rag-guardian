@@ -2,13 +2,10 @@
 
 import tempfile
 from pathlib import Path
-from typing import List
-
-import pytest
 
 from rag_guardian.core.config import Config
 from rag_guardian.core.loader import DataLoader
-from rag_guardian.core.pipeline import EvaluationPipeline, Evaluator
+from rag_guardian.core.pipeline import Evaluator
 from rag_guardian.core.types import TestCase
 from rag_guardian.integrations.base import BaseRAGAdapter
 from rag_guardian.reporting.html import HTMLReporter
@@ -25,7 +22,7 @@ class SimpleRAG(BaseRAGAdapter):
             "embedding": "Embeddings are vector representations of text",
         }
 
-    def retrieve(self, query: str) -> List[str]:
+    def retrieve(self, query: str) -> list[str]:
         query_lower = query.lower()
         contexts = []
 
@@ -35,7 +32,7 @@ class SimpleRAG(BaseRAGAdapter):
 
         return contexts or ["No relevant context found"]
 
-    def generate(self, query: str, contexts: List[str]) -> str:
+    def generate(self, query: str, contexts: list[str]) -> str:
         if contexts and contexts[0] != "No relevant context found":
             return contexts[0]
         return "I don't have information about that"
@@ -48,7 +45,9 @@ class TestCompleteWorkflow:
         """Test complete workflow: JSONL → Evaluation → HTML Report."""
         # 1. Create test cases JSONL file
         with tempfile.NamedTemporaryFile(mode="w", suffix=".jsonl", delete=False) as f:
-            f.write('{"question": "What is RAG?", "expected_answer": "Retrieval-Augmented Generation"}\n')
+            f.write(
+                '{"question": "What is RAG?", "expected_answer": "Retrieval-Augmented Generation"}\n'
+            )
             f.write('{"question": "What is an LLM?", "expected_answer": "Large Language Model"}\n')
             dataset_path = f.name
 
@@ -81,7 +80,7 @@ class TestCompleteWorkflow:
         # 9. Verify HTML was created
         assert Path(html_path).exists()
 
-        with open(html_path, "r") as f:
+        with open(html_path) as f:
             html = f.read()
             assert "Test Workflow Report" in html
             assert len(html) > 1000  # Should be substantial
@@ -263,7 +262,7 @@ reporting:
             def retrieve(self, query: str):
                 raise Exception("Retrieval failed!")
 
-            def generate(self, query: str, contexts: List[str]):
+            def generate(self, query: str, contexts: list[str]):
                 return "answer"
 
         rag = FailingRAG()
@@ -345,7 +344,7 @@ reporting:
             html_path = Path(tmpdir) / "failures.html"
             HTMLReporter.generate(results, str(html_path))
 
-            with open(html_path, "r") as f:
+            with open(html_path) as f:
                 html = f.read()
                 # Should show failure info
                 assert "FAILED" in html or "fail" in html.lower()

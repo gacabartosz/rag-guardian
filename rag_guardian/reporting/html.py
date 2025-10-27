@@ -2,7 +2,6 @@
 
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict
 
 from rag_guardian.core.types import EvaluationResult
 
@@ -11,7 +10,9 @@ class HTMLReporter:
     """Generate beautiful HTML reports from evaluation results."""
 
     @staticmethod
-    def generate(result: EvaluationResult, output_path: str, title: str = "RAG Quality Report") -> None:
+    def generate(
+        result: EvaluationResult, output_path: str, title: str = "RAG Quality Report"
+    ) -> None:
         """
         Generate HTML report.
 

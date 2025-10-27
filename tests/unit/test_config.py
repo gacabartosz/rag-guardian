@@ -2,12 +2,10 @@
 
 import os
 import tempfile
-from pathlib import Path
 
 import pytest
-import yaml
 
-from rag_guardian.core.config import Config, MetricConfig
+from rag_guardian.core.config import Config
 
 
 class TestConfig:
@@ -27,9 +25,7 @@ class TestConfig:
         data = {
             "version": "1.0",
             "rag_system": {"type": "langchain", "endpoint": "http://localhost:8000"},
-            "metrics": {
-                "faithfulness": {"enabled": True, "threshold": 0.85, "required": True}
-            },
+            "metrics": {"faithfulness": {"enabled": True, "threshold": 0.85, "required": True}},
         }
 
         config = Config.from_dict(data)
@@ -60,9 +56,7 @@ metrics:
 """
 
         # Create temporary YAML file
-        with tempfile.NamedTemporaryFile(
-            mode="w", suffix=".yml", delete=False
-        ) as f:
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".yml", delete=False) as f:
             f.write(yaml_content)
             temp_path = f.name
 
@@ -89,9 +83,7 @@ rag_system:
     Authorization: "Bearer ${TEST_API_KEY}"
 """
 
-        with tempfile.NamedTemporaryFile(
-            mode="w", suffix=".yml", delete=False
-        ) as f:
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".yml", delete=False) as f:
             f.write(yaml_content)
             temp_path = f.name
 
