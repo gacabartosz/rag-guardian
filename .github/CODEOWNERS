@@ -1,0 +1,24 @@
+# Code Owners for RAG Guardian
+# These owners will be requested for review when someone opens a pull request.
+# See: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Default owner for everything in the repo
+* @gacabartosz
+
+# Core functionality
+/rag_guardian/core/ @gacabartosz
+/rag_guardian/metrics/ @gacabartosz
+
+# Integrations - require review for new adapters
+/rag_guardian/integrations/ @gacabartosz
+
+# Documentation
+/docs/ @gacabartosz
+*.md @gacabartosz
+
+# CI/CD and GitHub workflows
+/.github/ @gacabartosz
+
+# Package configuration
+/pyproject.toml @gacabartosz
+/poetry.lock @gacabartosz

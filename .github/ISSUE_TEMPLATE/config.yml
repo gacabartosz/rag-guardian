@@ -1,0 +1,17 @@
+blank_issues_enabled: true
+contact_links:
+  - name: 💬 Discussions
+    url: https://github.com/gacabartosz/rag-guardian/discussions
+    about: Ask questions, share ideas, and discuss RAG Guardian with the community
+
+  - name: 📖 Documentation
+    url: https://github.com/gacabartosz/rag-guardian#readme
+    about: Read the comprehensive documentation and examples
+
+  - name: 🌐 Website
+    url: https://bartoszgaca.pl
+    about: Visit Bartosz Gaca's website for more tools and resources
+
+  - name: 💼 Commercial Support
+    url: https://bartoszgaca.pl
+    about: Get dedicated support for your enterprise RAG deployment

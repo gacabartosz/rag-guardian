@@ -1,0 +1,141 @@
+# GitHub Labels Configuration for RAG Guardian
+# Automatically synced via label-sync.yml workflow
+
+# Type of changes
+- name: bug
+  description: Something isn't working
+  color: d73a4a
+
+- name: enhancement
+  description: New feature or request
+  color: a2eeef
+
+- name: documentation
+  description: Improvements or additions to documentation
+  color: 0075ca
+
+- name: performance
+  description: Performance improvements
+  color: f9d0c4
+
+- name: refactor
+  description: Code refactoring without functionality changes
+  color: fbca04
+
+- name: security
+  description: Security-related issues or improvements
+  color: ee0701
+
+# Priority
+- name: priority:critical
+  description: Critical priority - needs immediate attention
+  color: b60205
+
+- name: priority:high
+  description: High priority
+  color: d93f0b
+
+- name: priority:medium
+  description: Medium priority
+  color: fbca04
+
+- name: priority:low
+  description: Low priority
+  color: 0e8a16
+
+# Status
+- name: status:in-progress
+  description: Work in progress
+  color: ededed
+
+- name: status:blocked
+  description: Blocked by other issues or dependencies
+  color: d876e3
+
+- name: status:needs-review
+  description: Needs code review
+  color: 0e8a16
+
+- name: status:needs-testing
+  description: Needs testing
+  color: fbca04
+
+- name: status:stale
+  description: Marked as stale due to inactivity
+  color: eeeeee
+
+# Area
+- name: area:core
+  description: Core functionality (pipeline, evaluator, etc.)
+  color: 1d76db
+
+- name: area:metrics
+  description: Metric implementations
+  color: 1d76db
+
+- name: area:integrations
+  description: RAG framework integrations (LangChain, LlamaIndex)
+  color: 1d76db
+
+- name: area:cli
+  description: Command-line interface
+  color: 1d76db
+
+- name: area:reporting
+  description: HTML/JSON reporting
+  color: 1d76db
+
+- name: area:ci-cd
+  description: CI/CD workflows and automation
+  color: 1d76db
+
+# Good for newcomers
+- name: good first issue
+  description: Good for newcomers
+  color: 7057ff
+
+- name: help wanted
+  description: Extra attention is needed
+  color: 008672
+
+# Dependencies
+- name: dependencies
+  description: Pull requests that update a dependency file
+  color: 0366d6
+
+- name: python
+  description: Python dependencies
+  color: 2b67c6
+
+- name: github-actions
+  description: GitHub Actions dependencies
+  color: 000000
+
+# Special
+- name: duplicate
+  description: This issue or pull request already exists
+  color: cfd3d7
+
+- name: invalid
+  description: This doesn't seem right
+  color: e4e669
+
+- name: wontfix
+  description: This will not be worked on
+  color: ffffff
+
+- name: question
+  description: Further information is requested
+  color: d876e3
+
+- name: roadmap
+  description: Planned for future releases
+  color: 0e8a16
+
+- name: pinned
+  description: Should not be marked as stale
+  color: c5def5
+
+- name: work-in-progress
+  description: Work in progress, don't merge yet
+  color: f9d0c4
