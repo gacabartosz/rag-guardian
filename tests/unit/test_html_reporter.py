@@ -346,7 +346,7 @@ class TestHTMLReporter:
             # Basic HTML validation
             assert html.count("<html") == 1
             assert html.count("</html>") == 1
-            assert html.count("<head") == 1
+            assert html.count("<head>") == 1
             assert html.count("</head>") == 1
             assert html.count("<body") == 1
             assert html.count("</body>") == 1

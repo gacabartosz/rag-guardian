@@ -155,7 +155,7 @@ class TestCompleteWorkflow:
         """Test workflow using YAML config."""
         # Create config file
         config_content = """
-version: 1.0
+version: "1.0"
 
 rag_system:
   type: "custom"

@@ -2,7 +2,7 @@
 
 import json
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Union
 
 from rag_guardian.core.config import Config, MetricConfig
 from rag_guardian.core.types import (
@@ -165,21 +165,25 @@ class EvaluationPipeline:
             failure_reasons=failure_reasons,
         )
 
-    def evaluate_dataset(self, dataset_path: str) -> EvaluationResult:
+    def evaluate_dataset(self, dataset_path: Union[str, List[TestCase]]) -> EvaluationResult:
         """
         Evaluate entire dataset.
 
         Args:
-            dataset_path: Path to JSONL file with test cases
+            dataset_path: Path to JSONL file with test cases or list of TestCase objects
 
         Returns:
             EvaluationResult with all test results and summary
         """
-        # Load test cases
-        test_cases = self.load_test_cases(dataset_path)
+        # Load test cases - handle both file path and list of TestCase objects
+        if isinstance(dataset_path, list):
+            test_cases = dataset_path
+        else:
+            test_cases = self.load_test_cases(dataset_path)
 
         if not test_cases:
-            raise ValueError(f"No test cases found in {dataset_path}")
+            source = "provided list" if isinstance(dataset_path, list) else dataset_path
+            raise ValueError(f"No test cases found in {source}")
 
         # Evaluate each test case
         results: List[TestCaseResult] = []
@@ -268,12 +272,12 @@ class Evaluator:
         config = Config.from_yaml(config_path)
         return cls(rag_adapter, config)
 
-    def evaluate_dataset(self, dataset_path: str) -> EvaluationResult:
+    def evaluate_dataset(self, dataset_path: Union[str, List[TestCase]]) -> EvaluationResult:
         """
         Evaluate a dataset.
 
         Args:
-            dataset_path: Path to JSONL test cases
+            dataset_path: Path to JSONL test cases or list of TestCase objects
 
         Returns:
             EvaluationResult
