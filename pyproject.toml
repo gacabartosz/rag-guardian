@@ -76,7 +76,7 @@ types-jsonschema = "^4.21.0"
 # Documentation
 mkdocs = "^1.5.3"
 mkdocs-material = "^9.5.6"
-mkdocstrings = {extras = ["python"], version = "^0.24.0"}
+mkdocstrings = {extras = ["python"], version = "^0.30.1"}
 
 [tool.poetry.scripts]
 rag-guardian = "rag_guardian.__main__:main"
